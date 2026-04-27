@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBA Insider — Premium Basketball Coverage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 900: '#0a0e1a', 800: '#0f1528', 700: '#161d35', 600: '#1e2745' },
+            hardwood: { 500: '#e87a20', 400: '#f09030', 600: '#c96410' },
+            electric: { 500: '#3b8bff', 400: '#5da0ff', 600: '#2070e0' },
+            neon: { 500: '#22e672', 400: '#4dfc90', 600: '#18c45e' },
+            carbon: { 900: '#0d0f14', 800: '#13161e', 700: '#1a1e28', 600: '#222733' },
+            silver: { 400: '#b0b8c8', 500: '#8a94a8', 600: '#636e82' }
+          },
+          fontFamily: {
+            heading: ['Oswald', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0d0f14; color: #e2e5eb; }
+    ::selection { background: #e87a20; color: #fff; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0d0f14; }
+    ::-webkit-scrollbar-thumb { background: #2a2f3d; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a4055; }
+
+    .ad-slot {
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.02) 10px,
+        rgba(255,255,255,0.04) 10px,
+        rgba(255,255,255,0.04) 20px
+      );
+      border: 1px dashed rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.2);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+    .ad-slot::before {
+      content: 'AD';
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      font-size: 9px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.2em;
+    }
+
+    .hero-slide { animation: fadeSlide 0.6s ease-out; }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .live-pulse {
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .stat-bar {
+      background: linear-gradient(90deg, #3b8bff, #22e672);
+      border-radius: 3px;
+      height: 6px;
+      transition: width 1s ease-out;
+    }
+
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #e87a20;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .ticker-scroll {
+      animation: tickerScroll 30s linear infinite;
+    }
+    @keyframes tickerScroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .noise-bg {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    .carbon-fiber {
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.015) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,0.015) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.015) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.015) 75%);
+      background-size: 4px 4px;
+      background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
+    }
+  </style>
+</head>
+<body class="noise-bg">
+
+  <!-- ===== TOP TICKER BAR ===== -->
+  <div class="bg-navy-900 border-b border-white/5 overflow-hidden h-8 flex items-center">
+    <div class="flex items-center gap-2 px-3 bg-neon-500/10 border-r border-white/5 h-full shrink-0 z-10">
+      <span class="w-2 h-2 rounded-full bg-neon-500 live-pulse"></span>
+      <span class="text-neon-400 text-xs font-bold tracking-wider uppercase">Live</span>
+    </div>
+    <div class="overflow-hidden flex-1">
+      <div class="ticker-scroll flex items-center gap-8 whitespace-nowrap">
+        <span class="text-xs text-silver-400">LAL 108 <span class="text-neon-400 font-semibold">●</span> 112 BOS — Q4 3:42</span>
+        <span class="text-xs text-silver-400">OKC 97 <span class="text-silver-600 font-semibold">○</span> DEN 101 — Final</span>
+        <span class="text-xs text-silver-400">NYK 85 <span class="text-neon-400 font-semibold">●</span> 82 MIA — Q3 7:15</span>
+        <span class="text-xs text-silver-400">MIN 110 <span class="text-silver-600 font-semibold">○</span> DAL 105 — Final</span>
+        <span class="text-xs text-silver-400">PHI 72 <span class="text-neon-400 font-semibold">●</span> 75 MIL — Halftime</span>
+        <span class="text-xs text-silver-400">GSW 99 <span class="text-silver-600 font-semibold">○</span> SAS 88 — Final</span>
+        <span class="text-xs text-silver-400">LAL 108 <span class="text-neon-400 font-semibold">●</span> 112 BOS — Q4 3:42</span>
+        <span class="text-xs text-silver-400">OKC 97 <span class="text-silver-600 font-semibold">○</span> DEN 101 — Final</span>
+        <span class="text-xs text-silver-400">NYK 85 <span class="text-neon-400 font-semibold">●</span> 82 MIA — Q3 7:15</span>
+        <span class="text-xs text-silver-400">MIN 110 <span class="text-silver-600 font-semibold">○</span> DAL 105 — Final</span>
+        <span class="text-xs text-silver-400">PHI 72 <span class="text-neon-400 font-semibold">●</span> 75 MIL — Halftime</span>
+        <span class="text-xs text-silver-400">GSW 99 <span class="text-silver-600 font-semibold">○</span> SAS 88 — Final</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="sticky top-0 z-50 bg-navy-900/95 backdrop-blur-md border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-hardwood-500 rounded-lg flex items-center justify-center group-hover:bg-hardwood-400 transition-colors">
+            <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+          </div>
+          <div>
+            <span class="font-heading text-xl font-bold tracking-wider uppercase text-white">NBA</span>
+            <span class="font-heading text-xl font-bold tracking-wider uppercase text-hardwood-500"> Insider</span>
+          </div>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-8">
+          <a href="#" class="nav-link text-sm font-medium text-white hover:text-hardwood-400 transition-colors">Scores</a>
+          <a href="#" class="nav-link text-sm font-medium text-silver-400 hover:text-hardwood-400 transition-colors">News</a>
+          <a href="#" class="nav-link text-sm font-medium text-silver-400 hover:text-hardwood-400 transition-colors">Analysis</a>
+          <a href="#" class="nav-link text-sm font-medium text-silver-400 hover:text-hardwood-400 transition-colors">The Vault</a>
+          <a href="#" class="nav-link text-sm font-medium text-silver-400 hover:text-hardwood-400 transition-colors">Draft</a>
+          <a href="#" class="nav-link text-sm font-medium text-silver-400 hover:text-hardwood-400 transition-colors">Odds</a>
+        </div>
+
+        <!-- Right Side -->
+        <div class="flex items-center gap-4">
+          <button class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-silver-400 hover:border-white/20 transition-colors">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+            Search...
+          </button>
+          <a href="#newsletter" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-hardwood-500 hover:bg-hardwood-400 text-white text-sm font-semibold rounded-lg transition-colors">
+            <i data-lucide="crown" class="w-4 h-4"></i>
+            Pro
+          </a>
+          <button id="mobileMenuBtn" class="lg:hidden p-2 text-silver-400 hover:text-white transition-colors">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-white/5 bg-navy-800/95 backdrop-blur-md">
+      <div class="px-4 py-4 space-y-1">
+        <a href="#" class="block px-3 py-2.5 text-sm font-medium text-white rounded-lg bg-white/5">Scores</a>
+        <a href="#" class="block px-3 py-2.5 text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">News</a>
+        <a href="#" class="block px-3 py-2.5 text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Analysis</a>
+        <a href="#" class="block px-3 py-2.5 text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">The Vault</a>
+        <a href="#" class="block px-3 py-2.5 text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Draft</a>
+        <a href="#" class="block px-3 py-2.5 text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Odds</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== AD: TOP LEADERBOARD (728x90) ===== -->
+  <div class="max-w-7xl mx-auto px-4 lg:px-6 pt-4">
+    <div class="ad-slot w-full h-[90px] rounded-lg">
+      <span>Leaderboard Ad — 728×90</span>
+    </div>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="max-w-7xl mx-auto px-4 lg:px-6 pt-6 pb-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4" id="heroGrid">
+      <!-- Main Hero Slide -->
+      <div class="lg:col-span-2 relative rounded-2xl overflow-hidden group cursor-pointer card-hover" id="heroMain">
+        <img id="heroImage" src="https://picsum.photos/seed/nba-dunk-slam/900/500.jpg" alt="Hero" class="w-full h-[300px] md:h-[420px] object-cover transition-transform duration-700 group-hover:scale-105">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-navy-900/60 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="flex items-center gap-1.5 px-2.5 py-1 bg-neon-500/20 border border-neon-500/30 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-neon-500 live-pulse"></span>
+              <span class="text-neon-400 text-xs font-bold uppercase tracking-wider">Breaking</span>
+            </span>
+            <span class="text-silver-500 text-xs">2 min ago</span>
+          </div>
+          <h1 id="heroTitle" class="font-heading text-3xl md:text-5xl font-bold text-white uppercase tracking-tight leading-[1.05] mb-3">
+            LeBron's Triple-Double Fuels Lakers' Dramatic Comeback in Game 7
+          </h1>
+          <p id="heroExcerpt" class="text-silver-400 text-sm md:text-base max-w-xl leading-relaxed mb-4 hidden md:block">
+            A legendary performance in the fourth quarter reshapes the playoff narrative as Los Angeles stuns Boston in a thrilling finale.
+          </p>
+          <div class="flex items-center gap-4">
+            <span class="text-hardwood-400 text-sm font-semibold">Read Full Story →</span>
+            <span class="text-silver-600 text-xs">By Marcus Chen</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side Hero Stack -->
+      <div class="flex flex-col gap-4">
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer flex-1 card-hover" onclick="switchHero(1)">
+          <img src="https://picsum.photos/seed/nba-crossover-move/500/280.jpg" alt="" class="w-full h-full min-h-[140px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/30 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <span class="text-electric-400 text-xs font-bold uppercase tracking-wider">Trade Rumors</span>
+            <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mt-1 leading-tight">Giannis to Miami? Inside the Blockbuster Framework</h3>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer flex-1 card-hover" onclick="switchHero(2)">
+          <img src="https://picsum.photos/seed/nba-three-pointer/500/280.jpg" alt="" class="w-full h-full min-h-[140px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/30 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <span class="text-hardwood-400 text-xs font-bold uppercase tracking-wider">Draft Scout</span>
+            <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mt-1 leading-tight">Cooper Flagg's Pre-Draft Workout Shocks Scouts</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Dots -->
+    <div class="flex items-center justify-center gap-2 mt-4">
+      <button class="w-8 h-1.5 rounded-full bg-hardwood-500 transition-all hero-dot" data-slide="0"></button>
+      <button class="w-1.5 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition-all hero-dot" data-slide="1"></button>
+      <button class="w-1.5 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition-all hero-dot" data-slide="2"></button>
+    </div>
+  </section>
+
+  <!-- ===== MAIN CONTENT + SIDEBAR ===== -->
+  <main class="max-w-7xl mx-auto px-4 lg:px-6 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+
+      <!-- ===== LEFT COLUMN ===== -->
+      <div class="space-y-10">
+
+        <!-- GAME CENTER -->
+        <section>
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-1 h-6 bg-hardwood-500 rounded-full"></div>
+              <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-tight">Game Center</h2>
+              <span class="flex items-center gap-1.5 px-2 py-0.5 bg-neon-500/10 border border-neon-500/20 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-neon-500 live-pulse"></span>
+                <span class="text-neon-400 text-[10px] font-bold uppercase tracking-wider">3 Live</span>
+              </span>
+            </div>
+            <a href="#" class="text-xs text-silver-500 hover:text-hardwood-400 transition-colors flex items-center gap-1">
+              All Scores <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+            <!-- Game Card 1 - Live -->
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-4 hover:border-neon-500/20 transition-colors cursor-pointer carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] text-neon-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-neon-500 live-pulse"></span> Q4 3:42
+                </span>
+                <span class="text-[10px] text-silver-600">ESPN</span>
+              </div>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-purple-700/40 flex items-center justify-center text-[10px] font-bold text-purple-300">LAL</div>
+                    <span class="text-sm font-semibold text-silver-400">Lakers</span>
+                  </div>
+                  <span class="text-lg font-bold text-white font-heading">108</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-green-700/40 flex items-center justify-center text-[10px] font-bold text-green-300">BOS</div>
+                    <span class="text-sm font-semibold text-white">Celtics</span>
+                  </div>
+                  <span class="text-lg font-bold text-neon-400 font-heading">112</span>
+                </div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                <span class="text-[10px] text-silver-600">LeBron: 34/12/11</span>
+                <i data-lucide="arrow-up-right" class="w-3 h-3 text-silver-600"></i>
+              </div>
+            </div>
+
+            <!-- Game Card 2 - Final -->
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-4 hover:border-white/10 transition-colors cursor-pointer carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] text-silver-500 font-bold uppercase tracking-wider">Final</span>
+                <span class="text-[10px] text-silver-600">TNT</span>
+              </div>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-blue-700/40 flex items-center justify-center text-[10px] font-bold text-blue-300">OKC</div>
+                    <span class="text-sm font-semibold text-silver-400">Thunder</span>
+                  </div>
+                  <span class="text-lg font-bold text-silver-400 font-heading">97</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-yellow-700/40 flex items-center justify-center text-[10px] font-bold text-yellow-300">DEN</div>
+                    <span class="text-sm font-semibold text-white">Nuggets</span>
+                  </div>
+                  <span class="text-lg font-bold text-white font-heading">101</span>
+                </div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                <span class="text-[10px] text-silver-600">Jokic: 28/14/9</span>
+                <i data-lucide="arrow-up-right" class="w-3 h-3 text-silver-600"></i>
+              </div>
+            </div>
+
+            <!-- Game Card 3 - Live -->
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-4 hover:border-neon-500/20 transition-colors cursor-pointer carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] text-neon-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-neon-500 live-pulse"></span> Q3 7:15
+                </span>
+                <span class="text-[10px] text-silver-600">NBA TV</span>
+              </div>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-orange-700/40 flex items-center justify-center text-[10px] font-bold text-orange-300">NYK</div>
+                    <span class="text-sm font-semibold text-neon-400">Knicks</span>
+                  </div>
+                  <span class="text-lg font-bold text-neon-400 font-heading">85</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-red-700/40 flex items-center justify-center text-[10px] font-bold text-red-300">MIA</div>
+                    <span class="text-sm font-semibold text-white">Heat</span>
+                  </div>
+                  <span class="text-lg font-bold text-white font-heading">82</span>
+                </div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                <span class="text-[10px] text-silver-600">Brunson: 22/6/8</span>
+                <i data-lucide="arrow-up-right" class="w-3 h-3 text-silver-600"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AD: IN-CONTENT MID-ROLL 1 -->
+        <div class="ad-slot w-full h-[250px] rounded-xl">
+          <span>Mid-Roll Ad — 728×250 (Responsive)</span>
+        </div>
+
+        <!-- PLAYER OF THE NIGHT -->
+        <section>
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-6 bg-electric-500 rounded-full"></div>
+            <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-tight">Player of the Night</h2>
+          </div>
+
+          <div class="bg-carbon-700/40 border border-white/5 rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-[280px_1fr]">
+              <div class="relative h-[300px] md:h-auto">
+                <img src="https://picsum.photos/seed/nba-player-portrait-action/400/400.jpg" alt="Player" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to-carbon-700/80 hidden md:block"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-carbon-700/80 to-transparent md:hidden"></div>
+                <div class="absolute bottom-4 left-4 md:bottom-auto md:top-4 md:left-4">
+                  <span class="px-3 py-1.5 bg-hardwood-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">⭐ MVP Watch</span>
+                </div>
+              </div>
+              <div class="p-6 md:p-8 flex flex-col justify-center">
+                <h3 class="font-heading text-3xl md:text-4xl font-bold text-white uppercase tracking-tight">LeBron James</h3>
+                <p class="text-silver-500 text-sm mt-1 mb-5">Los Angeles Lakers · SF/PF · Age 40</p>
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                  <div>
+                    <p class="font-heading text-3xl font-bold text-electric-400">34</p>
+                    <p class="text-[10px] text-silver-600 uppercase tracking-wider mt-0.5">Points</p>
+                  </div>
+                  <div>
+                    <p class="font-heading text-3xl font-bold text-electric-400">12</p>
+                    <p class="text-[10px] text-silver-600 uppercase tracking-wider mt-0.5">Rebounds</p>
+                  </div>
+                  <div>
+                    <p class="font-heading text-3xl font-bold text-electric-400">11</p>
+                    <p class="text-[10px] text-silver-600 uppercase tracking-wider mt-0.5">Assists</p>
+                  </div>
+                  <div>
+                    <p class="font-heading text-3xl font-bold text-neon-400">+28</p>
+                    <p class="text-[10px] text-silver-600 uppercase tracking-wider mt-0.5">Plus/Minus</p>
+                  </div>
+                </div>
+                <!-- Stat Bars -->
+                <div class="space-y-3">
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-silver-500">FG%</span>
+                      <span class="text-electric-400 font-semibold">62.5%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-white/5 rounded-full"><div class="stat-bar" style="width: 62.5%"></div></div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-silver-500">3PT%</span>
+                      <span class="text-electric-400 font-semibold">50.0%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-white/5 rounded-full"><div class="stat-bar" style="width: 50%"></div></div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-silver-500">Usage Rate</span>
+                      <span class="text-electric-400 font-semibold">34.2%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-white/5 rounded-full"><div class="stat-bar" style="width: 34.2%"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DEEP DIVES — ARTICLES WITH AD INJECTIONS -->
+        <section>
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-1 h-6 bg-hardwood-500 rounded-full"></div>
+              <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-tight">Deep Dives</h2>
+            </div>
+            <a href="#" class="text-xs text-silver-500 hover:text-hardwood-400 transition-colors flex items-center gap-1">
+              View All <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+
+          <div class="space-y-0" id="articleFeed">
+            <!-- Article 1 -->
+            <article class="border-b border-white/5 pb-6 mb-6 group cursor-pointer">
+              <div class="flex gap-5">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 bg-electric-500/10 text-electric-400 text-[10px] font-bold uppercase tracking-wider rounded">Analysis</span>
+                    <span class="text-silver-600 text-xs">5 hours ago</span>
+                  </div>
+                  <h3 class="font-heading text-xl font-bold text-white uppercase tracking-tight group-hover:text-hardwood-400 transition-colors leading-tight mb-2">
+                    How the Celtics' Switch-Everything Defense Is Rewriting Playoff Basketball
+                  </h3>
+                  <p class="text-silver-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                    Boston's defensive scheme has evolved beyond simple switches. We break down the micro-adjustments that are making opposing offenses look lost in the halfcourt.
+                  </p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-carbon-600 flex items-center justify-center text-[9px] font-bold text-silver-400">MC</div>
+                    <span class="text-silver-600 text-xs">Marcus Chen · 8 min read</span>
+                  </div>
+                </div>
+                <div class="hidden sm:block w-[180px] h-[120px] rounded-lg overflow-hidden shrink-0">
+                  <img src="https://picsum.photos/seed/nba-defense-scheme/360/240.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="border-b border-white/5 pb-6 mb-6 group cursor-pointer">
+              <div class="flex gap-5">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 bg-hardwood-500/10 text-hardwood-400 text-[10px] font-bold uppercase tracking-wider rounded">Feature</span>
+                    <span class="text-silver-600 text-xs">8 hours ago</span>
+                  </div>
+                  <h3 class="font-heading text-xl font-bold text-white uppercase tracking-tight group-hover:text-hardwood-400 transition-colors leading-tight mb-2">
+                    Victor Wembanyama's Second Year Leap: From Phenom to MVP Candidate
+                  </h3>
+                  <p class="text-silver-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                    The numbers are staggering, but the eye test tells an even more impressive story. How Wemby has transformed his game to become the league's most unstoppable force.
+                  </p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-carbon-600 flex items-center justify-center text-[9px] font-bold text-silver-400">AJ</div>
+                    <span class="text-silver-600 text-xs">Aisha Johnson · 12 min read</span>
+                  </div>
+                </div>
+                <div class="hidden sm:block w-[180px] h-[120px] rounded-lg overflow-hidden shrink-0">
+                  <img src="https://picsum.photos/seed/nba-wemby-block/360/240.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+              </div>
+            </article>
+
+            <!-- ★ AD INJECTION: After 2 Articles ★ -->
+            <div class="ad-slot w-full h-[250px] rounded-xl mb-6">
+              <span>In-Article Mid-Roll Ad — 728×250</span>
+            </div>
+
+            <!-- Article 3 -->
+            <article class="border-b border-white/5 pb-6 mb-6 group cursor-pointer">
+              <div class="flex gap-5">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 bg-neon-500/10 text-neon-400 text-[10px] font-bold uppercase tracking-wider rounded">Odds</span>
+                    <span class="text-silver-600 text-xs">12 hours ago</span>
+                  </div>
+                  <h3 class="font-heading text-xl font-bold text-white uppercase tracking-tight group-hover:text-hardwood-400 transition-colors leading-tight mb-2">
+                    NBA Finals Odds Shift: Why the Thunder Are Now the Betting Favorite
+                  </h3>
+                  <p class="text-silver-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                    Sharp money has poured in on Oklahoma City after their dominant road trip. We analyze the shifting lines and what the markets are telling us.
+                  </p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-carbon-600 flex items-center justify-center text-[9px] font-bold text-silver-400">DK</div>
+                    <span class="text-silver-600 text-xs">Derek Kim · 6 min read</span>
+                  </div>
+                </div>
+                <div class="hidden sm:block w-[180px] h-[120px] rounded-lg overflow-hidden shrink-0">
+                  <img src="https://picsum.photos/seed/nba-betting-odds/360/240.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="border-b border-white/5 pb-6 mb-6 group cursor-pointer">
+              <div class="flex gap-5">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-wider rounded">Injury Report</span>
+                    <span class="text-silver-600 text-xs">14 hours ago</span>
+                  </div>
+                  <h3 class="font-heading text-xl font-bold text-white uppercase tracking-tight group-hover:text-hardwood-400 transition-colors leading-tight mb-2">
+                    Anthony Davis Knee Update: MRI Reveals No Structural Damage
+                  </h3>
+                  <p class="text-silver-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                    The Lakers received a massive sigh of relief as Davis's MRI came back clean. Expected return timeline and what it means for their playoff seeding push.
+                  </p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-carbon-600 flex items-center justify-center text-[9px] font-bold text-silver-400">RL</div>
+                    <span class="text-silver-600 text-xs">Rachel Lee · 4 min read</span>
+                  </div>
+                </div>
+                <div class="hidden sm:block w-[180px] h-[120px] rounded-lg overflow-hidden shrink-0">
+                  <img src="https://picsum.photos/seed/nba-injury-report/360/240.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+              </div>
+            </article>
+
+            <!-- ★ AD INJECTION: After 4 Articles ★ -->
+            <div class="ad-slot w-full h-[250px] rounded-xl mb-6">
+              <span>In-Article Mid-Roll Ad — 728×250</span>
+            </div>
+
+            <!-- Article 5 -->
+            <article class="group cursor-pointer">
+              <div class="flex gap-5">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 bg-electric-500/10 text-electric-400 text-[10px] font-bold uppercase tracking-wider rounded">Film Study</span>
+                    <span class="text-silver-600 text-xs">18 hours ago</span>
+                  </div>
+                  <h3 class="font-heading text-xl font-bold text-white uppercase tracking-tight group-hover:text-hardwood-400 transition-colors leading-tight mb-2">
+                    Unlocking Shai Gilgeous-Alexander's Unblockable Midrange
+                  </h3>
+                  <p class="text-silver-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                    Frame-by-frame breakdown of SGA's signature move — the hanging crossover into a contested pull-up that defenders simply cannot contest.
+                  </p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-carbon-600 flex items-center justify-center text-[9px] font-bold text-silver-400">TW</div>
+                    <span class="text-silver-600 text-xs">Tyler Washington · 15 min read</span>
+                  </div>
+                </div>
+                <div class="hidden sm:block w-[180px] h-[120px] rounded-lg overflow-hidden shrink-0">
+                  <img src="https://picsum.photos/seed/nba-film-study/360/240.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- THE VAULT -->
+        <section>
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-1 h-6 bg-purple-500 rounded-full"></div>
+              <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-tight">The Vault</h2>
+              <span class="px-2 py-0.5 bg-hardwood-500/10 text-hardwood-400 text-[10px] font-bold uppercase tracking-wider rounded">Premium</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative rounded-xl overflow-hidden group cursor-pointer card-hover bg-carbon-700/40 border border-white/5">
+              <div class="aspect-video overflow-hidden">
+                <img src="https://picsum.photos/seed/nba-kobe-retro/500/280.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90">
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-carbon-900 via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <span class="text-purple-400 text-[10px] font-bold uppercase tracking-wider">Historic Moments</span>
+                <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mt-1 leading-tight">Kobe's 81: The Night That Defined a Generation</h3>
+                <div class="flex items-center gap-2 mt-2">
+                  <i data-lucide="lock" class="w-3 h-3 text-hardwood-500"></i>
+                  <span class="text-hardwood-400 text-[10px] font-bold uppercase tracking-wider">Pro Members Only</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative rounded-xl overflow-hidden group cursor-pointer card-hover bg-carbon-700/40 border border-white/5">
+              <div class="aspect-video overflow-hidden">
+                <img src="https://picsum.photos/seed/nba-draft-prospects/500/280.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90">
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-carbon-900 via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <span class="text-electric-400 text-[10px] font-bold uppercase tracking-wider">Draft Guide 2025</span>
+                <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mt-1 leading-tight">Top 100 Big Board: Full Scouting Reports</h3>
+                <div class="flex items-center gap-2 mt-2">
+                  <i data-lucide="lock" class="w-3 h-3 text-hardwood-500"></i>
+                  <span class="text-hardwood-400 text-[10px] font-bold uppercase tracking-wider">Pro Members Only</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative rounded-xl overflow-hidden group cursor-pointer card-hover bg-carbon-700/40 border border-white/5">
+              <div class="aspect-video overflow-hidden">
+                <img src="https://picsum.photos/seed/nba-trade-deadline/500/280.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90">
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-carbon-900 via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <span class="text-hardwood-400 text-[10px] font-bold uppercase tracking-wider">Insider Intel</span>
+                <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mt-1 leading-tight">Trade Deadline Winners & Losers: Full Breakdown</h3>
+                <div class="flex items-center gap-2 mt-2">
+                  <i data-lucide="lock" class="w-3 h-3 text-hardwood-500"></i>
+                  <span class="text-hardwood-400 text-[10px] font-bold uppercase tracking-wider">Pro Members Only</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative rounded-xl overflow-hidden group cursor-pointer card-hover bg-carbon-700/40 border border-white/5">
+              <div class="aspect-video overflow-hidden">
+                <img src="https://picsum.photos/seed/nba-advanced-stats/500/280.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90">
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-carbon-900 via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <span class="text-neon-400 text-[10px] font-bold uppercase tracking-wider">Analytics</span>
+                <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mt-1 leading-tight">EPM Deep Dive: The Hidden MVP Candidates</h3>
+                <div class="flex items-center gap-2 mt-2">
+                  <i data-lucide="lock" class="w-3 h-3 text-hardwood-500"></i>
+                  <span class="text-hardwood-400 text-[10px] font-bold uppercase tracking-wider">Pro Members Only</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ===== RIGHT SIDEBAR / RAIL ===== -->
+      <aside class="space-y-6">
+
+        <!-- ★ STICKY AD: 300x600 (Top of Rail) ★ -->
+        <div class="sticky top-20 space-y-6">
+          <div class="ad-slot w-full h-[600px] rounded-xl">
+            <span>Sticky Rail Ad — 300×600</span>
+          </div>
+
+          <!-- Power Rankings -->
+          <div class="bg-carbon-700/40 border border-white/5 rounded-xl p-5">
+            <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mb-4 flex items-center gap-2">
+              <i data-lucide="trophy" class="w-4 h-4 text-hardwood-500"></i>
+              Power Rankings
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 group cursor-pointer">
+                <span class="font-heading text-lg font-bold text-hardwood-500 w-6">1</span>
+                <div class="w-6 h-6 rounded-full bg-blue-700/40 flex items-center justify-center text-[9px] font-bold text-blue-300">OKC</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white group-hover:text-hardwood-400 transition-colors">Thunder</p>
+                  <p class="text-[10px] text-neon-400">52-12</p>
+                </div>
+                <i data-lucide="trending-up" class="w-3 h-3 text-neon-500"></i>
+              </div>
+              <div class="flex items-center gap-3 group cursor-pointer">
+                <span class="font-heading text-lg font-bold text-silver-500 w-6">2</span>
+                <div class="w-6 h-6 rounded-full bg-green-700/40 flex items-center justify-center text-[9px] font-bold text-green-300">BOS</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white group-hover:text-hardwood-400 transition-colors">Celtics</p>
+                  <p class="text-[10px] text-silver-500">49-15</p>
+                </div>
+                <i data-lucide="minus" class="w-3 h-3 text-silver-600"></i>
+              </div>
+              <div class="flex items-center gap-3 group cursor-pointer">
+                <span class="font-heading text-lg font-bold text-silver-500 w-6">3</span>
+                <div class="w-6 h-6 rounded-full bg-silver-600/40 flex items-center justify-center text-[9px] font-bold text-silver-300">SAS</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white group-hover:text-hardwood-400 transition-colors">Spurs</p>
+                  <p class="text-[10px] text-neon-400">46-18</p>
+                </div>
+                <i data-lucide="trending-up" class="w-3 h-3 text-neon-500"></i>
+              </div>
+              <div class="flex items-center gap-3 group cursor-pointer">
+                <span class="font-heading text-lg font-bold text-silver-500 w-6">4</span>
+                <div class="w-6 h-6 rounded-full bg-purple-700/40 flex items-center justify-center text-[9px] font-bold text-purple-300">LAL</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white group-hover:text-hardwood-400 transition-colors">Lakers</p>
+                  <p class="text-[10px] text-silver-500">44-20</p>
+                </div>
+                <i data-lucide="trending-up" class="w-3 h-3 text-neon-500"></i>
+              </div>
+              <div class="flex items-center gap-3 group cursor-pointer">
+                <span class="font-heading text-lg font-bold text-silver-500 w-6">5</span>
+                <div class="w-6 h-6 rounded-full bg-orange-700/40 flex items-center justify-center text-[9px] font-bold text-orange-300">NYK</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white group-hover:text-hardwood-400 transition-colors">Knicks</p>
+                  <p class="text-[10px] text-silver-500">43-21</p>
+                </div>
+                <i data-lucide="trending-down" class="w-3 h-3 text-red-500"></i>
+              </div>
+            </div>
+            <a href="#" class="block mt-4 text-center text-xs text-silver-500 hover:text-hardwood-400 transition-colors pt-3 border-t border-white/5">
+              Full Rankings →
+            </a>
+          </div>
+
+          <!-- Betting Widget -->
+          <div class="bg-carbon-700/40 border border-white/5 rounded-xl p-5">
+            <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mb-4 flex items-center gap-2">
+              <i data-lucide="dollar-sign" class="w-4 h-4 text-neon-500"></i>
+              Tonight's Odds
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between py-2 border-b border-white/5">
+                <div>
+                  <p class="text-sm font-semibold text-white">LAL @ BOS</p>
+                  <p class="text-[10px] text-silver-600">8:30 PM ET</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-silver-400">BOS -3.5</p>
+                  <p class="text-xs text-silver-400">O/U 224.5</p>
+                </div>
+              </div>
+              <div class="flex items-center justify-between py-2 border-b border-white/5">
+                <div>
+                  <p class="text-sm font-semibold text-white">NYK @ MIA</p>
+                  <p class="text-[10px] text-silver-600">7:00 PM ET</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-silver-400">NYK -2.0</p>
+                  <p class="text-xs text-silver-400">O/U 211.0</p>
+                </div>
+              </div>
+              <div class="flex items-center justify-between py-2">
+                <div>
+                  <p class="text-sm font-semibold text-white">PHI @ MIL</p>
+                  <p class="text-[10px] text-silver-600">8:00 PM ET</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-silver-400">MIL -1.5</p>
+                  <p class="text-xs text-silver-400">O/U 218.5</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[10px] text-silver-600 text-center leading-relaxed">
+              Odds via partner sportsbooks. 21+ only. Gamble responsibly.
+            </div>
+          </div>
+
+          <!-- ★ SECOND STICKY AD: 300x250 ★ -->
+          <div class="ad-slot w-full h-[250px] rounded-xl">
+            <span>Sticky Rail Ad — 300×250</span>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ===== AD: BOTTOM LEADERBOARD ===== -->
+  <div class="max-w-7xl mx-auto px-4 lg:px-6 pb-6">
+    <div class="ad-slot w-full h-[90px] rounded-lg">
+      <span>Bottom Leaderboard Ad — 728×90</span>
+    </div>
+  </div>
+
+  <!-- ===== NEWSLETTER / COMMUNITY HUB ===== -->
+  <section id="newsletter" class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-carbon-900 via-navy-800 to-carbon-900"></div>
+    <div class="absolute inset-0 carbon-fiber opacity-50"></div>
+    <!-- Decorative glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-hardwood-500/5 rounded-full blur-[120px]"></div>
+
+    <div class="relative max-w-3xl mx-auto px-4 lg:px-6 text-center">
+      <span class="inline-flex items-center gap-2 px-3 py-1 bg-hardwood-500/10 border border-hardwood-500/20 rounded-full mb-6">
+        <i data-lucide="mail" class="w-3.5 h-3.5 text-hardwood-400"></i>
+        <span class="text-hardwood-400 text-xs font-bold uppercase tracking-wider">Join 47,000+ Fans</span>
+      </span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-white uppercase tracking-tight mb-4">
+        Never Miss a <span class="text-hardwood-500">Beat</span>
+      </h2>
+      <p class="text-silver-400 text-lg leading-relaxed mb-8 max-w-xl mx-auto">
+        Get the morning playbook delivered to your inbox — scores, analysis, and insider rumblings before anyone else.
+      </p>
+
+      <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-6">
+        <input
+          type="email"
+          id="emailInput"
+          placeholder="your@email.com"
+          class="flex-1 px-5 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-silver-600 text-sm focus:outline-none focus:border-hardwood-500/50 focus:ring-1 focus:ring-hardwood-500/20 transition-all"
+          required
+        >
+        <button type="submit" class="px-8 py-3.5 bg-hardwood-500 hover:bg-hardwood-400 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all hover:shadow-lg hover:shadow-hardwood-500/20 flex items-center justify-center gap-2">
+          <i data-lucide="zap" class="w-4 h-4"></i>
+          Subscribe
+        </button>
+      </form>
+      <div id="formMessage" class="hidden text-sm mb-4"></div>
+      <p class="text-silver-600 text-xs">No spam. Unsubscribe anytime. We respect your inbox.</p>
+
+      <!-- Pro CTA -->
+      <div class="mt-12 inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-white/[0.03] border border-white/5 rounded-2xl">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-hardwood-500 to-hardwood-600 flex items-center justify-center shrink-0">
+          <i data-lucide="crown" class="w-7 h-7 text-white"></i>
+        </div>
+        <div class="text-left">
+          <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight">Go Pro</h3>
+          <p class="text-silver-500 text-sm">Unlock The Vault, ad-free reading, exclusive trade intel & draft guides.</p>
+        </div>
+        <a href="#" class="px-6 py-2.5 bg-white text-carbon-900 font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-silver-400 transition-colors shrink-0">
+          $7.99/mo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-white/5 bg-carbon-900">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 bg-hardwood-500 rounded-lg flex items-center justify-center">
+              <i data-lucide="zap" class="w-4 h-4 text-white"></i>
+            </div>
+            <span class="font-heading text-lg font-bold text-white uppercase tracking-wider">NBA Insider</span>
+          </div>
+          <p class="text-silver-600 text-xs leading-relaxed">Premium basketball coverage for die-hard fans. Data-driven analysis, breaking news, and insider intel.</p>
+        </div>
+        <div>
+          <h4 class="font-heading text-sm font-bold text-white uppercase tracking-wider mb-4">Coverage</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Scores & Schedule</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Standings</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Player Stats</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Team Pages</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Injury Report</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading text-sm font-bold text-white uppercase tracking-wider mb-4">Content</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Deep Dives</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">The Vault</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Draft Central</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Odds & Picks</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Podcast</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading text-sm font-bold text-white uppercase tracking-wider mb-4">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">About Us</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Careers</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Advertise</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="text-silver-500 text-xs hover:text-hardwood-400 transition-colors">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-silver-600 text-xs">© 2025 NBA Insider. All rights reserved. Not affiliated with the NBA.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-silver-500 hover:text-white hover:bg-white/10 transition-all">
+            <i data-lucide="twitter" class="w-4 h-4"></i>
+          </a>
+          <a href="#" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-silver-500 hover:text-white hover:bg-white/10 transition-all">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          </a>
+          <a href="#" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-silver-500 hover:text-white hover:bg-white/10 transition-all">
+            <i data-lucide="youtube" class="w-4 h-4"></i>
+          </a>
+          <a href="#" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-silver-500 hover:text-white hover:bg-white/10 transition-all">
+            <i data-lucide="rss" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Hero Slider Data
+    const heroSlides = [
+      {
+        image: 'https://picsum.photos/seed/nba-dunk-slam/900/500.jpg',
+        tag: 'Breaking',
+        tagColor: 'neon',
+        time: '2 min ago',
+        title: "LeBron's Triple-Double Fuels Lakers' Dramatic Comeback in Game 7",
+        excerpt: 'A legendary performance in the fourth quarter reshapes the playoff narrative as Los Angeles stuns Boston in a thrilling finale.',
+        author: 'Marcus Chen'
+      },
+      {
+        image: 'https://picsum.photos/seed/nba-crossover-move/900/500.jpg',
+        tag: 'Trade Rumors',
+        tagColor: 'electric',
+        time: '45 min ago',
+        title: "Giannis to Miami? Inside the Blockbuster Framework That Could Shake the East",
+        excerpt: 'Multiple sources confirm preliminary discussions between Milwaukee and Miami involving a package centered around the two-time MVP.',
+        author: 'Derek Kim'
+      },
+      {
+        image: 'https://picsum.photos/seed/nba-three-pointer/900/500.jpg',
+        tag: 'Draft Scout',
+        tagColor: 'hardwood',
+        time: '1 hour ago',
+        title: "Cooper Flagg's Pre-Draft Workout Shocks Scouts With Elite Shooting Display",
+        excerpt: 'The projected No. 1 overall pick showed a dramatically improved jumper that could change his floor and ceiling as a prospect.',
+        author: 'Aisha Johnson'
+      }
+    ];
+
+    let currentSlide = 0;
+    const heroImage = document.getElementById('heroImage');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroExcerpt = document.getElementById('heroExcerpt');
+    const heroMain = document.getElementById('heroMain');
+    const heroDots = document.querySelectorAll('.hero-dot');
+
+    function switchHero(index) {
+      currentSlide = index;
+      const slide = heroSlides[index];
+
+      heroMain.classList.remove('hero-slide');
+      void heroMain.offsetWidth; // force reflow
+      heroMain.classList.add('hero-slide');
+
+      heroImage.src = slide.image;
+      heroTitle.textContent = slide.title;
+      heroExcerpt.textContent = slide.excerpt;
+
+      heroDots.forEach((dot, i) => {
+        dot.className = i === index
+          ? 'w-8 h-1.5 rounded-full bg-hardwood-500 transition-all hero-dot'
+          : 'w-1.5 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition-all hero-dot';
+      });
+    }
+
+    heroDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        switchHero(parseInt(dot.dataset.slide));
+      });
+    });
+
+    // Auto-rotate hero
+    let heroInterval = setInterval(() => {
+      switchHero((currentSlide + 1) % heroSlides.length);
+    }, 6000);
+
+    // Pause on hover
+    heroMain.addEventListener('mouseenter', () => clearInterval(heroInterval));
+    heroMain.addEventListener('mouseleave', () => {
+      heroInterval = setInterval(() => {
+        switchHero((currentSlide + 1) % heroSlides.length);
+      }, 6000);
+    });
+
+    // Newsletter Form
+    const newsletterForm = document.getElementById('newsletterForm');
+    const emailInput = document.getElementById('emailInput');
+    const formMessage = document.getElementById('formMessage');
+
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+
+      if (email) {
+        formMessage.className = 'text-sm mb-4 text-neon-400';
+        formMessage.textContent = `✓ Welcome to the playbook, ${email.split('@')[0]}! Check your inbox.`;
+        formMessage.classList.remove('hidden');
+        emailInput.value = '';
+
+        setTimeout(() => {
+          formMessage.classList.add('hidden');
+        }, 5000);
+      }
+    });
+
+    // Animate stat bars on scroll
+    const statBars = document.querySelectorAll('.stat-bar');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.width = entry.target.style.width; // trigger
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statBars.forEach(bar => {
+      const targetWidth = bar.style.width;
+      bar.style.width = '0%';
+      setTimeout(() => {
+        bar.style.width = targetWidth;
+      }, 300);
+      observer.observe(bar);
+    });
+  </script>
+
+</body>
+</html>
