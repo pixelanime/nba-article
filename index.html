@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBA Insider — Admin & CMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 900: '#0a0e1a', 800: '#0f1528', 700: '#161d35', 600: '#1e2745' },
+            hardwood: { 500: '#e87a20', 400: '#f09030', 600: '#c96410' },
+            electric: { 500: '#3b8bff', 400: '#5da0ff', 600: '#2070e0' },
+            neon: { 500: '#22e672', 400: '#4dfc90', 600: '#18c45e' },
+            carbon: { 900: '#0d0f14', 800: '#13161e', 700: '#1a1e28', 600: '#222733' },
+            silver: { 400: '#b0b8c8', 500: '#8a94a8', 600: '#636e82' }
+          },
+          fontFamily: {
+            heading: ['Oswald', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0d0f14; color: #e2e5eb; }
+    ::selection { background: #e87a20; color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0d0f14; }
+    ::-webkit-scrollbar-thumb { background: #2a2f3d; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a4055; }
+
+    .ad-slot {
+      background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.04) 10px, rgba(255,255,255,0.04) 20px);
+      border: 1px dashed rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.15); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+    }
+
+    .carbon-fiber {
+      background-image: linear-gradient(45deg, rgba(255,255,255,0.012) 25%, transparent 25%), linear-gradient(-45deg, rgba(255,255,255,0.012) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.012) 75%), linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.012) 75%);
+      background-size: 4px 4px; background-position: 0 0, 0 2px, 2px -2px, -2px 0;
+    }
+
+    .live-pulse { animation: livePulse 1.5s ease-in-out infinite; }
+    @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.8s linear infinite; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.4s ease-out forwards; }
+
+    @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    .slide-in { animation: slideIn 0.3s ease-out; }
+
+    .nav-tab { position: relative; transition: color 0.2s; }
+    .nav-tab::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #e87a20; transition: width 0.25s; }
+    .nav-tab:hover::after, .nav-tab.active::after { width: 100%; }
+    .nav-tab.active { color: #fff; }
+
+    textarea { resize: vertical; }
+    input:focus, textarea:focus, select:focus { outline: none; }
+
+    .toast-enter { animation: slideIn 0.3s ease-out; }
+
+    /* Code block in setup modal */
+    .code-block { background: #0a0c10; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; }
+    .code-block pre { padding: 16px; overflow-x: auto; font-size: 12px; line-height: 1.6; }
+    .code-block code { font-family: 'JetBrains Mono', monospace; }
+    .code-header { background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-[100] space-y-3 pointer-events-none"></div>
+
+  <!-- ===== SETUP MODAL ===== -->
+  <div id="setupModal" class="fixed inset-0 z-[90] hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+    <div class="bg-carbon-700 border border-white/10 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6 md:p-8">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-tight">Setup Guide</h2>
+          <button onclick="closeSetupModal()" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-silver-500 hover:text-white hover:bg-white/10 transition-all">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-7 h-7 rounded-full bg-hardwood-500 flex items-center justify-center text-xs font-bold text-white shrink-0">1</span>
+            <h3 class="font-heading text-lg font-bold text-white uppercase">Create Google Sheet</h3>
+          </div>
+          <p class="text-silver-400 text-sm leading-relaxed ml-10 mb-3">
+            Create a new Google Sheet. Name the first tab <code class="font-mono text-electric-400 bg-electric-500/10 px-1.5 py-0.5 rounded text-xs">Articles</code> and add these exact headers in Row 1:
+          </p>
+          <div class="ml-10 overflow-x-auto">
+            <table class="w-full text-xs border border-white/10 rounded-lg overflow-hidden">
+              <thead><tr class="bg-white/5">
+                <th class="px-4 py-2 text-left text-silver-400 font-semibold border-b border-white/10">Title</th>
+                <th class="px-4 py-2 text-left text-silver-400 font-semibold border-b border-white/10">Slug</th>
+                <th class="px-4 py-2 text-left text-silver-400 font-semibold border-b border-white/10">Category</th>
+                <th class="px-4 py-2 text-left text-silver-400 font-semibold border-b border-white/10">Content</th>
+                <th class="px-4 py-2 text-left text-silver-400 font-semibold border-b border-white/10">Image_URL</th>
+                <th class="px-4 py-2 text-left text-silver-400 font-semibold border-b border-white/10">Date</th>
+              </tr></thead>
+              <tbody><tr>
+                <td class="px-4 py-2 text-silver-600 border-b border-white/5 italic">My First Post</td>
+                <td class="px-4 py-2 text-silver-600 border-b border-white/5 italic">my-first-post</td>
+                <td class="px-4 py-2 text-silver-600 border-b border-white/5 italic">Analysis</td>
+                <td class="px-4 py-2 text-silver-600 border-b border-white/5 italic">Long text here...</td>
+                <td class="px-4 py-2 text-silver-600 border-b border-white/5 italic">https://...</td>
+                <td class="px-4 py-2 text-silver-600 border-b border-white/5 italic">2025-04-28</td>
+              </tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-7 h-7 rounded-full bg-hardwood-500 flex items-center justify-center text-xs font-bold text-white shrink-0">2</span>
+            <h3 class="font-heading text-lg font-bold text-white uppercase">Add Apps Script</h3>
+          </div>
+          <p class="text-silver-400 text-sm leading-relaxed ml-10 mb-3">
+            Go to <strong class="text-white">Extensions → Apps Script</strong> in your Sheet. Delete the default code and paste this:
+          </p>
+          <div class="ml-10 code-block">
+            <div class="code-header">
+              <span class="text-xs text-silver-500 font-mono">Code.gs — Google Apps Script</span>
+              <button onclick="copyScript()" id="copyScriptBtn" class="text-xs text-electric-400 hover:text-electric-300 font-semibold flex items-center gap-1 transition-colors">
+                <i data-lucide="copy" class="w-3 h-3"></i> Copy
+              </button>
+            </div>
+            <pre><code class="text-silver-400" id="appsScriptCode">function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Articles');
+    if (!sheet) return jsonResponse({ error: 'Sheet "Articles" not found' }, 404);
+    var data = sheet.getDataRange().getValues();
+    if (data.length <= 1) return jsonResponse([]);
+    var headers = data[0];
+    var result = [];
+    for (var i = 1; i &lt; data.length; i++) {
+      var row = {};
+      for (var j = 0; j &lt; headers.length; j++) {
+        row[headers[j].toLowerCase()] = data[i][j];
+      }
+      result.push(row);
+    }
+    return jsonResponse(result);
+  } catch (err) {
+    return jsonResponse({ error: err.message }, 500);
+  }
+}
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Articles');
+    if (!sheet) return jsonResponse({ error: 'Sheet "Articles" not found' }, 404);
+
+    var payload = JSON.parse(e.postData.contents);
+
+    // Simple auth check
+    var adminKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY') || 'changeme123';
+    if (payload.admin_key !== adminKey) {
+      return jsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    var date = payload.date || new Date().toISOString().split('T')[0];
+    sheet.appendRow([payload.title, payload.slug, payload.category, payload.content, payload.image_url, date]);
+    return jsonResponse({ success: true, message: 'Article added successfully' });
+  } catch (err) {
+    return jsonResponse({ error: err.message }, 500);
+  }
+}
+
+function jsonResponse(data, code) {
+  code = code || 200;
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setContentLength(JSON.stringify(data).length);
+}
+
+// Run this once to set your admin password
+function setAdminKey() {
+  PropertiesService.getScriptProperties().setProperty('ADMIN_KEY', 'your-secure-password-here');
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-7 h-7 rounded-full bg-hardwood-500 flex items-center justify-center text-xs font-bold text-white shrink-0">3</span>
+            <h3 class="font-heading text-lg font-bold text-white uppercase">Deploy as Web App</h3>
+          </div>
+          <div class="ml-10 space-y-2 text-silver-400 text-sm leading-relaxed">
+            <p>1. Click <strong class="text-white">Deploy → New Deployment</strong></p>
+            <p>2. Set type to <strong class="text-white">Web App</strong></p>
+            <p>3. Execute as: <strong class="text-white">Me</strong></p>
+            <p>4. Who has access: <strong class="text-white">Anyone</strong></p>
+            <p>5. Click <strong class="text-white">Deploy</strong>, authorize, and <strong class="text-electric-400">copy the Web App URL</strong></p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-7 h-7 rounded-full bg-hardwood-500 flex items-center justify-center text-xs font-bold text-white shrink-0">4</span>
+            <h3 class="font-heading text-lg font-bold text-white uppercase">Connect This Dashboard</h3>
+          </div>
+          <p class="text-silver-400 text-sm leading-relaxed ml-10 mb-4">
+            Paste your Web App URL and admin password in the Settings panel (gear icon in the sidebar), then you're ready to publish.
+          </p>
+          <div class="ml-10 p-4 bg-neon-500/5 border border-neon-500/15 rounded-xl">
+            <div class="flex items-start gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-neon-500 shrink-0 mt-0.5"></i>
+              <p class="text-neon-400 text-xs leading-relaxed"><strong>Security Tip:</strong> Change the default admin password by running <code class="font-mono bg-neon-500/10 px-1 rounded">setAdminKey()</code> in Apps Script with your own password before deploying.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside id="sidebar" class="w-64 bg-navy-900 border-r border-white/5 flex flex-col shrink-0 transition-all duration-300 max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:-translate-x-full" data-open="false">
+      <!-- Logo -->
+      <div class="h-16 flex items-center gap-3 px-5 border-b border-white/5 shrink-0">
+        <div class="w-9 h-9 bg-hardwood-500 rounded-lg flex items-center justify-center">
+          <i data-lucide="zap" class="w-4 h-4 text-white"></i>
+        </div>
+        <div>
+          <span class="font-heading text-lg font-bold tracking-wider uppercase text-white">NBA</span>
+          <span class="font-heading text-lg font-bold tracking-wider uppercase text-hardwood-500"> Insider</span>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
+        <p class="text-[10px] text-silver-600 font-bold uppercase tracking-widest px-3 mb-2">Main</p>
+        <button onclick="switchView('dashboard')" class="nav-tab active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 transition-all" data-view="dashboard">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+        </button>
+        <button onclick="switchView('write')" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 transition-all" data-view="write">
+          <i data-lucide="pen-line" class="w-4 h-4"></i> Write Article
+        </button>
+        <button onclick="switchView('articles')" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 transition-all" data-view="articles">
+          <i data-lucide="newspaper" class="w-4 h-4"></i> All Articles
+          <span id="articleCount" class="ml-auto text-[10px] bg-white/10 text-silver-500 px-1.5 py-0.5 rounded-full font-mono">0</span>
+        </button>
+
+        <p class="text-[10px] text-silver-600 font-bold uppercase tracking-widest px-3 mb-2 mt-6">Preview</p>
+        <button onclick="switchView('preview')" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 transition-all" data-view="preview">
+          <i data-lucide="eye" class="w-4 h-4"></i> Live Preview
+        </button>
+
+        <p class="text-[10px] text-silver-600 font-bold uppercase tracking-widest px-3 mb-2 mt-6">System</p>
+        <button onclick="switchView('settings')" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 transition-all" data-view="settings">
+          <i data-lucide="settings" class="w-4 h-4"></i> Settings
+        </button>
+        <button onclick="openSetupModal()" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-silver-400 hover:text-white hover:bg-white/5 transition-all">
+          <i data-lucide="book-open" class="w-4 h-4"></i> Setup Guide
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="p-4 border-t border-white/5 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-carbon-600 flex items-center justify-center text-xs font-bold text-silver-400">AD</div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-white truncate">Admin</p>
+            <p class="text-[10px] text-silver-600 truncate" id="connectionStatus">Not connected</p>
+          </div>
+          <div id="statusDot" class="w-2 h-2 rounded-full bg-red-500 shrink-0"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="flex-1 flex flex-col min-w-0">
+      <!-- Top Bar -->
+      <header class="h-16 bg-navy-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-4 lg:px-6 shrink-0">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSidebar()" class="md:hidden p-2 text-silver-400 hover:text-white transition-colors">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <h1 id="viewTitle" class="font-heading text-lg font-bold text-white uppercase tracking-tight">Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="refreshData()" class="p-2 text-silver-500 hover:text-white hover:bg-white/5 rounded-lg transition-all" title="Refresh data">
+            <i data-lucide="refresh-cw" class="w-4 h-4" id="refreshIcon"></i>
+          </button>
+          <button onclick="switchView('write')" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-hardwood-500 hover:bg-hardwood-400 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> New Post
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <main class="flex-1 overflow-y-auto" id="contentArea">
+
+        <!-- ==================== DASHBOARD VIEW ==================== -->
+        <div id="view-dashboard" class="view-panel p-4 lg:p-8 space-y-6">
+          <!-- Stats Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-5 carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-silver-600 text-xs font-medium uppercase tracking-wider">Total Posts</span>
+                <i data-lucide="newspaper" class="w-4 h-4 text-electric-500"></i>
+              </div>
+              <p class="font-heading text-3xl font-bold text-white" id="statTotal">0</p>
+              <p class="text-[10px] text-silver-600 mt-1">Published articles</p>
+            </div>
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-5 carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-silver-600 text-xs font-medium uppercase tracking-wider">Categories</span>
+                <i data-lucide="tag" class="w-4 h-4 text-hardwood-500"></i>
+              </div>
+              <p class="font-heading text-3xl font-bold text-white" id="statCategories">0</p>
+              <p class="text-[10px] text-silver-600 mt-1">Active categories</p>
+            </div>
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-5 carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-silver-600 text-xs font-medium uppercase tracking-wider">Latest</span>
+                <i data-lucide="clock" class="w-4 h-4 text-neon-500"></i>
+              </div>
+              <p class="font-heading text-xl font-bold text-white truncate" id="statLatest">—</p>
+              <p class="text-[10px] text-silver-600 mt-1" id="statLatestDate">No posts yet</p>
+            </div>
+            <div class="bg-carbon-700/50 border border-white/5 rounded-xl p-5 carbon-fiber">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-silver-600 text-xs font-medium uppercase tracking-wider">API Status</span>
+                <div id="statApiDot" class="w-4 h-4 rounded-full bg-red-500/50"></div>
+              </div>
+              <p class="font-heading text-xl font-bold text-white" id="statApi">Offline</p>
+              <p class="text-[10px] text-silver-600 mt-1" id="statApiDetail">Configure in Settings</p>
+            </div>
+          </div>
+
+          <!-- Recent Articles + Category Breakdown -->
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+            <div class="bg-carbon-700/30 border border-white/5 rounded-xl p-5">
+              <h3 class="font-heading text-base font-bold text-white uppercase tracking-tight mb-4 flex items-center gap-2">
+                <i data-lucide="list" class="w-4 h-4 text-silver-500"></i> Recent Articles
+              </h3>
+              <div id="recentArticlesList" class="space-y-2">
+                <div class="text-sm text-silver-600 py-8 text-center">No articles yet. Write your first post!</div>
+              </div>
+            </div>
+            <div class="bg-carbon-700/30 border border-white/5 rounded-xl p-5">
+              <h3 class="font-heading text-base font-bold text-white uppercase tracking-tight mb-4 flex items-center gap-2">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-silver-500"></i> Categories
+              </h3>
+              <div id="categoryBreakdown" class="space-y-3">
+                <div class="text-sm text-silver-600 py-8 text-center">No data</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ad Slot -->
+          <div class="ad-slot w-full h-[90px] rounded-lg">
+            <span>Leaderboard Ad — 728×90</span>
+          </div>
+        </div>
+
+        <!-- ==================== WRITE ARTICLE VIEW ==================== -->
+        <div id="view-write" class="view-panel hidden p-4 lg:p-8">
+          <div class="max-w-4xl">
+            <!-- Status Bar -->
+            <div class="flex items-center gap-3 mb-6">
+              <div id="publishStatus" class="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">
+                <div class="w-2 h-2 rounded-full bg-silver-600"></div>
+                <span class="text-xs text-silver-500 font-medium">Draft</span>
+              </div>
+            </div>
+
+            <!-- Title -->
+            <input
+              type="text"
+              id="inputTitle"
+              placeholder="Article title..."
+              class="w-full bg-transparent font-heading text-3xl md:text-4xl font-bold text-white uppercase tracking-tight placeholder-silver-700 mb-4 border-none"
+            >
+
+            <!-- Meta Row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="text-[10px] text-silver-600 uppercase tracking-wider font-bold mb-1.5 block">Slug</label>
+                <input
+                  type="text"
+                  id="inputSlug"
+                  placeholder="article-url-slug"
+                  class="w-full px-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-white placeholder-silver-700 font-mono focus:border-electric-500/50 focus:ring-1 focus:ring-electric-500/20 transition-all"
+                >
+              </div>
+              <div>
+                <label class="text-[10px] text-silver-600 uppercase tracking-wider font-bold mb-1.5 block">Category</label>
+                <select
+                  id="inputCategory"
+                  class="w-full px-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-white focus:border-electric-500/50 focus:ring-1 focus:ring-electric-500/20 transition-all appearance-none cursor-pointer"
+                >
+                  <option value="Analysis" class="bg-carbon-800">Analysis</option>
+                  <option value="Feature" class="bg-carbon-800">Feature</option>
+                  <option value="Trade Rumors" class="bg-carbon-800">Trade Rumors</option>
+                  <option value="Draft Scout" class="bg-carbon-800">Draft Scout</option>
+                  <option value="Odds" class="bg-carbon-800">Odds</option>
+                  <option value="Injury Report" class="bg-carbon-800">Injury Report</option>
+                  <option value="Film Study" class="bg-carbon-800">Film Study</option>
+                  <option value="Historic Moments" class="bg-carbon-800">Historic Moments</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Image URL -->
+            <div class="mb-4">
+              <label class="text-[10px] text-silver-600 uppercase tracking-wider font-bold mb-1.5 block">Image URL</label>
+              <div class="flex gap-3">
+                <input
+                  type="url"
+                  id="inputImage"
+                  placeholder="https://picsum.photos/seed/example/900/500.jpg"
+                  class="flex-1 px-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-white placeholder-silver-700 font-mono focus:border-electric-500/50 focus:ring-1 focus:ring-electric-500/20 transition-all"
+                  oninput="previewImage()"
+                >
+                <button onclick="fillRandomImage()" class="px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs text-silver-400 hover:bg-white/10 hover:text-white transition-all shrink-0" title="Generate random image">
+                  <i data-lucide="shuffle" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <!-- Image Preview -->
+              <div id="imagePreviewContainer" class="hidden mt-3 rounded-xl overflow-hidden border border-white/5 max-w-md">
+                <img id="imagePreview" src="" alt="Preview" class="w-full h-48 object-cover">
+                <div class="px-3 py-2 bg-carbon-800/80 text-[10px] text-silver-600 font-mono truncate" id="imagePreviewUrl"></div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="mb-6">
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-[10px] text-silver-600 uppercase tracking-wider font-bold">Content (Markdown supported)</label>
+                <span class="text-[10px] text-silver-700 font-mono" id="charCount">0 chars</span>
+              </div>
+              <textarea
+                id="inputContent"
+                placeholder="Write your article content here...&#10;&#10;You can use **bold**, *italic*, and [links](url) in Markdown format."
+                rows="14"
+                class="w-full px-4 py-3 bg-carbon-700/50 border border-white/10 rounded-xl text-sm text-silver-300 placeholder-silver-700 leading-relaxed font-mono focus:border-electric-500/50 focus:ring-1 focus:ring-electric-500/20 transition-all"
+                oninput="updateCharCount()"
+              ></textarea>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+              <button onclick="publishArticle()" id="publishBtn" class="flex items-center gap-2 px-6 py-3 bg-hardwood-500 hover:bg-hardwood-400 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all hover:shadow-lg hover:shadow-hardwood-500/20">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                Publish to Sheets
+              </button>
+              <button onclick="clearForm()" class="flex items-center gap-2 px-5 py-3 bg-white/5 hover:bg-white/10 text-silver-400 hover:text-white text-sm font-medium rounded-lg transition-all border border-white/10">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                Clear
+              </button>
+              <button onclick="autoFillSlug()" class="hidden sm:flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 text-silver-500 hover:text-white text-xs font-medium rounded-lg transition-all border border-white/5" title="Auto-generate slug from title">
+                <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+                Auto Slug
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== ALL ARTICLES VIEW ==================== -->
+        <div id="view-articles" class="view-panel hidden p-4 lg:p-8">
+          <!-- Filters -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+            <div class="relative flex-1 w-full sm:max-w-xs">
+              <i data-lucide="search" class="w-4 h-4 text-silver-600 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input
+                type="text"
+                id="searchArticles"
+                placeholder="Search articles..."
+                class="w-full pl-10 pr-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-white placeholder-silver-700 focus:border-electric-500/50 transition-all"
+                oninput="filterArticles()"
+              >
+            </div>
+            <select
+              id="filterCategory"
+              class="px-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-silver-400 focus:border-electric-500/50 transition-all appearance-none cursor-pointer"
+              onchange="filterArticles()"
+            >
+              <option value="all">All Categories</option>
+            </select>
+          </div>
+
+          <!-- Articles Table -->
+          <div class="bg-carbon-700/30 border border-white/5 rounded-xl overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-white/5">
+                    <th class="text-left px-5 py-3 text-[10px] text-silver-600 font-bold uppercase tracking-wider">Title</th>
+                    <th class="text-left px-5 py-3 text-[10px] text-silver-600 font-bold uppercase tracking-wider hidden md:table-cell">Category</th>
+                    <th class="text-left px-5 py-3 text-[10px] text-silver-600 font-bold uppercase tracking-wider hidden lg:table-cell">Date</th>
+                    <th class="text-right px-5 py-3 text-[10px] text-silver-600 font-bold uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="articlesTableBody">
+                  <tr><td colspan="4" class="px-5 py-12 text-center text-silver-600 text-sm">Loading articles...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== LIVE PREVIEW VIEW ==================== -->
+        <div id="view-preview" class="view-panel hidden">
+          <!-- Ticker -->
+          <div class="bg-navy-900 border-b border-white/5 overflow-hidden h-8 flex items-center shrink-0">
+            <div class="flex items-center gap-2 px-3 bg-neon-500/10 border-r border-white/5 h-full shrink-0 z-10">
+              <span class="w-2 h-2 rounded-full bg-neon-500 live-pulse"></span>
+              <span class="text-neon-400 text-xs font-bold tracking-wider uppercase">Live</span>
+            </div>
+            <div class="overflow-hidden flex-1">
+              <div class="flex gap-8 whitespace-nowrap animate-[tickerScroll_30s_linear_infinite]" style="animation: tickerScroll 30s linear infinite;">
+                <span class="text-xs text-silver-400">LAL 108 <span class="text-neon-400 font-semibold">●</span> 112 BOS — Q4 3:42</span>
+                <span class="text-xs text-silver-400">OKC 97 <span class="text-silver-600 font-semibold">○</span> DEN 101 — Final</span>
+                <span class="text-xs text-silver-400">NYK 85 <span class="text-neon-400 font-semibold">●</span> 82 MIA — Q3 7:15</span>
+                <span class="text-xs text-silver-400">LAL 108 <span class="text-neon-400 font-semibold">●</span> 112 BOS — Q4 3:42</span>
+                <span class="text-xs text-silver-400">OKC 97 <span class="text-silver-600 font-semibold">○</span> DEN 101 — Final</span>
+                <span class="text-xs text-silver-400">NYK 85 <span class="text-neon-400 font-semibold">●</span> 82 MIA — Q3 7:15</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ad -->
+          <div class="max-w-5xl mx-auto px-4 pt-4">
+            <div class="ad-slot w-full h-[90px] rounded-lg"><span>Leaderboard Ad — 728×90</span></div>
+          </div>
+
+          <!-- Hero -->
+          <div class="max-w-5xl mx-auto px-4 pt-6 pb-2">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-1 h-6 bg-hardwood-500 rounded-full"></div>
+              <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-tight">Latest Stories</h2>
+            </div>
+          </div>
+
+          <!-- Article Grid (fetched) -->
+          <div class="max-w-5xl mx-auto px-4 pb-4">
+            <div id="previewGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              <!-- Loading -->
+              <div class="col-span-full flex items-center justify-center py-20">
+                <div class="w-8 h-8 border-2 border-hardwood-500/30 border-t-hardwood-500 rounded-full spinner"></div>
+                <span class="ml-3 text-silver-500 text-sm">Fetching articles...</span>
+              </div>
+            </div>
+
+            <!-- Mid-Roll Ad -->
+            <div class="ad-slot w-full h-[250px] rounded-xl mt-6"><span>Mid-Roll Ad — 728×250</span></div>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="max-w-5xl mx-auto px-4 py-12">
+            <div class="bg-carbon-700/30 border border-white/5 rounded-2xl p-8 text-center">
+              <h3 class="font-heading text-2xl font-bold text-white uppercase tracking-tight mb-2">Never Miss a <span class="text-hardwood-500">Beat</span></h3>
+              <p class="text-silver-500 text-sm mb-5">Get the morning playbook delivered to your inbox.</p>
+              <div class="flex max-w-md mx-auto gap-2">
+                <input type="email" placeholder="your@email.com" class="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder-silver-700 focus:outline-none focus:border-hardwood-500/50 transition-all">
+                <button class="px-5 py-2.5 bg-hardwood-500 hover:bg-hardwood-400 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors">Subscribe</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== SETTINGS VIEW ==================== -->
+        <div id="view-settings" class="view-panel hidden p-4 lg:p-8">
+          <div class="max-w-2xl space-y-8">
+            <div class="bg-carbon-700/30 border border-white/5 rounded-xl p-6">
+              <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mb-1">Google Apps Script Configuration</h3>
+              <p class="text-silver-600 text-xs mb-5">Enter the Web App URL from your deployed Google Apps Script.</p>
+
+              <div class="space-y-4">
+                <div>
+                  <label class="text-[10px] text-silver-600 uppercase tracking-wider font-bold mb-1.5 block">Web App URL</label>
+                  <input
+                    type="url"
+                    id="settingApiUrl"
+                    placeholder="https://script.google.com/macros/s/xxxxx/exec"
+                    class="w-full px-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-white placeholder-silver-700 font-mono focus:border-electric-500/50 focus:ring-1 focus:ring-electric-500/20 transition-all"
+                  >
+                </div>
+                <div>
+                  <label class="text-[10px] text-silver-600 uppercase tracking-wider font-bold mb-1.5 block">Admin Password</label>
+                  <input
+                    type="password"
+                    id="settingAdminKey"
+                    placeholder="Your admin key from Apps Script"
+                    class="w-full px-4 py-2.5 bg-carbon-700/50 border border-white/10 rounded-lg text-sm text-white placeholder-silver-700 font-mono focus:border-electric-500/50 focus:ring-1 focus:ring-electric-500/20 transition-all"
+                  >
+                </div>
+                <div class="flex items-center gap-3 pt-2">
+                  <button onclick="saveSettings()" class="flex items-center gap-2 px-5 py-2.5 bg-hardwood-500 hover:bg-hardwood-400 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-colors">
+                    <i data-lucide="save" class="w-4 h-4"></i> Save Settings
+                  </button>
+                  <button onclick="testConnection()" class="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-silver-400 hover:text-white text-sm font-medium rounded-lg transition-all border border-white/10">
+                    <i data-lucide="wifi" class="w-4 h-4"></i> Test Connection
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-carbon-700/30 border border-white/5 rounded-xl p-6">
+              <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mb-1">Demo Mode</h3>
+              <p class="text-silver-600 text-xs mb-4">No Google Sheets? Enable demo mode to test the interface with sample data.</p>
+              <button onclick="enableDemoMode()" id="demoModeBtn" class="flex items-center gap-2 px-5 py-2.5 bg-electric-500/10 hover:bg-electric-500/20 text-electric-400 text-sm font-medium rounded-lg transition-all border border-electric-500/20">
+                <i data-lucide="flask-conical" class="w-4 h-4"></i> Enable Demo Mode
+              </button>
+            </div>
+
+            <div class="bg-carbon-700/30 border border-white/5 rounded-xl p-6">
+              <h3 class="font-heading text-lg font-bold text-white uppercase tracking-tight mb-1">Data</h3>
+              <p class="text-silver-600 text-xs mb-4">Clear local cache and stored settings.</p>
+              <button onclick="clearAllData()" class="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-sm font-medium rounded-lg transition-all border border-red-500/20">
+                <i data-lucide="trash" class="w-4 h-4"></i> Clear All Data
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ========================================
+    // STATE MANAGEMENT
+    // ========================================
+    let state = {
+      apiUrl: localStorage.getItem('nba_api_url') || '',
+      adminKey: localStorage.getItem('nba_admin_key') || '',
+      articles: [],
+      isDemo: false,
+      currentView: 'dashboard'
+    };
+
+    const CATEGORY_COLORS = {
+      'Analysis': { bg: 'bg-electric-500/10', text: 'text-electric-400', border: 'border-electric-500/20' },
+      'Feature': { bg: 'bg-hardwood-500/10', text: 'text-hardwood-400', border: 'border-hardwood-500/20' },
+      'Trade Rumors': { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/20' },
+      'Draft Scout': { bg: 'bg-hardwood-500/10', text: 'text-hardwood-400', border: 'border-hardwood-500/20' },
+      'Odds': { bg: 'bg-neon-500/10', text: 'text-neon-400', border: 'border-neon-500/20' },
+      'Injury Report': { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
+      'Film Study': { bg: 'bg-electric-500/10', text: 'text-electric-400', border: 'border-electric-500/20' },
+      'Historic Moments': { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' }
+    };
+
+    const DEFAULT_COLOR = { bg: 'bg-white/5', text: 'text-silver-400', border: 'border-white/10' };
+
+    // ========================================
+    // DEMO DATA
+    // ========================================
+    const DEMO_ARTICLES = [
+      {
+        title: "How the Celtics' Switch-Everything Defense Is Rewriting Playoff Basketball",
+        slug: "celtics-switch-defense-rewrite",
+        category: "Analysis",
+        content: "Boston's defensive scheme has evolved beyond simple switches. We break down the micro-adjustments that are making opposing offenses look lost in the halfcourt. The key lies in their weak-side rotation speed — something that's improved by 23% since last season according to tracking data.\n\n**The Numbers:**\n- Opponent FG%: 41.2% (1st in NBA)\n- Defensive Rating: 108.4 (1st)\n- Turnovers forced per game: 16.3 (3rd)\n\n*This is the best defense we've seen since the 2016 Warriors* — and it might be even better in the playoffs.",
+        image_url: "https://picsum.photos/seed/nba-defense-scheme/900/500.jpg",
+        date: "2025-04-28"
+      },
+      {
+        title: "Victor Wembanyama's Second Year Leap: From Phenom to MVP Candidate",
+        slug: "wembanyama-mvp-candidate",
+        category: "Feature",
+        content: "The numbers are staggering, but the eye test tells an even more impressive story. Wemby has transformed his game to become the league's most unstoppable force.\n\nAt **7'4\"** with a **7'8\" wingspan**, he's blocking shots at a rate not seen since peak Rudy Gobert — while simultaneously leading his team in scoring and assists. The Spurs are 22-8 when he records a triple-double.",
+        image_url: "https://picsum.photos/seed/nba-wemby-block/900/500.jpg",
+        date: "2025-04-27"
+      },
+      {
+        title: "Giannis to Miami? Inside the Blockbuster Framework",
+        slug: "giannis-miami-trade-framework",
+        category: "Trade Rumors",
+        content: "Multiple sources confirm preliminary discussions between Milwaukee and Miami. The framework centers around **three first-round picks** and **two young players** heading to Milwaukee.\n\nThe deal isn't imminent — Giannis hasn't requested a trade — but the Bucks are quietly doing due diligence on what a return package could look like. Miami has been aggressive in pursuing a third star alongside Butler and Rozier.",
+        image_url: "https://picsum.photos/seed/nba-crossover-move/900/500.jpg",
+        date: "2025-04-26"
+      },
+      {
+        title: "NBA Finals Odds Shift: Why the Thunder Are Now the Betting Favorite",
+        slug: "thunder-finals-betting-favorite",
+        category: "Odds",
+        content: "Sharp money has poured in on Oklahoma City after their dominant road trip. The Thunder moved from +350 to +220 at major sportsbooks in just 72 hours.\n\n**Current Odds:**\n- OKC Thunder: +220\n- Boston Celtics: +250\n- Los Angeles Lakers: +400\n- San Antonio Spurs: +600\n\nThe market is reacting to OKC's net rating of **+12.4** over their last 15 games — a historically dominant stretch.",
+        image_url: "https://picsum.photos/seed/nba-betting-odds/900/500.jpg",
+        date: "2025-04-25"
+      },
+      {
+        title: "Cooper Flagg's Pre-Draft Workout Shocks Scouts",
+        slug: "cooper-flagg-draft-workout",
+        category: "Draft Scout",
+        content: "The projected No. 1 overall pick showed a dramatically improved jumper that could change his floor and ceiling as a prospect. Flagg hit **38 of 50** three-pointers in his private workout, per sources.\n\nAt 6'9\" with elite defensive instincts, a reliable three-point shot would make Flagg a once-in-a-decade prospect. One scout in attendance called it *\"the best pre-draft workout I've seen since Luka.\"*",
+        image_url: "https://picsum.photos/seed/nba-three-pointer/900/500.jpg",
+        date: "2025-04-24"
+      },
+      {
+        title: "Anthony Davis Knee Update: MRI Reveals No Structural Damage",
+        slug: "anthony-davis-knee-mri",
+        category: "Injury Report",
+        content: "The Lakers received a massive sigh of relief as Davis's MRI came back clean. He's listed as **day-to-day** and could return as soon as Thursday.\n\nDavis has been averaging **24.8 points, 12.4 rebounds, and 2.8 blocks** this season. His absence has coincided with a 3-5 stretch that's dropped LA to the 5th seed in the West.",
+        image_url: "https://picsum.photos/seed/nba-injury-report/900/500.jpg",
+        date: "2025-04-23"
+      }
+    ];
+
+    // ========================================
+    // INITIALIZATION
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadSettings();
+      updateConnectionStatus();
+      if (state.apiUrl || state.isDemo) {
+        fetchArticles();
+      } else {
+        updateDashboardEmpty();
+      }
+    });
+
+    // ========================================
+    // NAVIGATION
+    // ========================================
+    function switchView(view) {
+      state.currentView = view;
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+      const target = document.getElementById(`view-${view}`);
+      if (target) {
+        target.classList.remove('hidden');
+        target.classList.add('fade-up');
+        setTimeout(() => target.classList.remove('fade-up'), 400);
+      }
+
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      const tab = document.querySelector(`.nav-tab[data-view="${view}"]`);
+      if (tab) tab.classList.add('active');
+
+      const titles = { dashboard: 'Dashboard', write: 'Write Article', articles: 'All Articles', preview: 'Live Preview', settings: 'Settings' };
+      document.getElementById('viewTitle').textContent = titles[view] || 'Dashboard';
+
+      if (view === 'preview') fetchArticles();
+      if (view === 'articles') renderArticlesTable();
+      if (view === 'settings') populateSettings();
+
+      // Close mobile sidebar
+      const sidebar = document.getElementById('sidebar');
+      if (window.innerWidth < 768 && sidebar.dataset.open === 'true') toggleSidebar();
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const isOpen = sidebar.dataset.open === 'true';
+      sidebar.dataset.open = !isOpen;
+      if (!isOpen) {
+        sidebar.classList.remove('max-md:-translate-x-full');
+        overlay.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('max-md:-translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    // ========================================
+    // SETTINGS
+    // ========================================
+    function loadSettings() {
+      state.apiUrl = localStorage.getItem('nba_api_url') || '';
+      state.adminKey = localStorage.getItem('nba_admin_key') || '';
+      state.isDemo = localStorage.getItem('nba_demo') === 'true';
+      if (state.isDemo) {
+        state.articles = [...DEMO_ARTICLES];
+      }
+    }
+
+    function populateSettings() {
+      document.getElementById('settingApiUrl').value = state.apiUrl;
+      document.getElementById('settingAdminKey').value = state.adminKey;
+      const demoBtn = document.getElementById('demoModeBtn');
+      if (state.isDemo) {
+        demoBtn.innerHTML = '<i data-lucide="flask-conical" class="w-4 h-4"></i> Demo Mode Active';
+        demoBtn.className = 'flex items-center gap-2 px-5 py-2.5 bg-neon-500/10 text-neon-400 text-sm font-medium rounded-lg transition-all border border-neon-500/20';
+      }
+      lucide.createIcons();
+    }
+
+    function saveSettings() {
+      const url = document.getElementById('settingApiUrl').value.trim();
+      const key = document.getElementById('settingAdminKey').value.trim();
+      state.apiUrl = url;
+      state.adminKey = key;
+      localStorage.setItem('nba_api_url', url);
+      localStorage.setItem('nba_admin_key', key);
+      updateConnectionStatus();
+      showToast('Settings saved', 'success');
+      fetchArticles();
+    }
+
+    async function testConnection() {
+      const url = document.getElementById('settingApiUrl').value.trim();
+      if (!url) { showToast('Enter a Web App URL first', 'error'); return; }
+      showToast('Testing connection...', 'info');
+      try {
+        const res = await fetch(url, { redirect: 'follow' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            showToast(`Connected! Found ${data.length} articles`, 'success');
+            updateApiStatus(true, `${data.length} articles`);
+          } else {
+            showToast('Connected but unexpected response format', 'warning');
+            updateApiStatus(true, 'Connected');
+          }
+        } else {
+          showToast(`Server returned ${res.status}`, 'error');
+          updateApiStatus(false, `Error ${res.status}`);
+        }
+      } catch (err) {
+        showToast('Connection failed: ' + err.message, 'error');
+        updateApiStatus(false, 'Failed');
+      }
+    }
+
+    function enableDemoMode() {
+      state.isDemo = true;
+      state.articles = [...DEMO_ARTICLES];
+      localStorage.setItem('nba_demo', 'true');
+      updateConnectionStatus();
+      updateDashboard();
+      showToast('Demo mode enabled with 6 sample articles', 'success');
+      populateSettings();
+    }
+
+    function clearAllData() {
+      localStorage.removeItem('nba_api_url');
+      localStorage.removeItem('nba_admin_key');
+      localStorage.removeItem('nba_demo');
+      state.apiUrl = '';
+      state.adminKey = '';
+      state.isDemo = false;
+      state.articles = [];
+      updateConnectionStatus();
+      updateDashboardEmpty();
+      populateSettings();
+      showToast('All data cleared', 'success');
+    }
+
+    function updateConnectionStatus() {
+      const dot = document.getElementById('statusDot');
+      const text = document.getElementById('connectionStatus');
+      if (state.isDemo) {
+        dot.className = 'w-2 h-2 rounded-full bg-yellow-500 shrink-0';
+        text.textContent = 'Demo Mode';
+      } else if (state.apiUrl) {
+        dot.className = 'w-2 h-2 rounded-full bg-neon-500 shrink-0';
+        text.textContent = 'Connected';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-red-500 shrink-0';
+        text.textContent = 'Not connected';
+      }
+    }
+
+    function updateApiStatus(connected, detail) {
+      const dot = document.getElementById('statApiDot');
+      const text = document.getElementById('statApi');
+      const sub = document.getElementById('statApiDetail');
+      if (connected) {
+        dot.className = 'w-4 h-4 rounded-full bg-neon-500';
+        text.textContent = 'Online';
+      } else {
+        dot.className = 'w-4 h-4 rounded-full bg-red-500/50';
+        text.textContent = 'Offline';
+      }
+      sub.textContent = detail || '';
+    }
+
+    // ========================================
+    // DATA FETCHING
+    // ========================================
+    async function fetchArticles() {
+      if (state.isDemo) {
+        state.articles = [...DEMO_ARTICLES];
+        updateDashboard();
+        renderPreviewGrid();
+        renderArticlesTable();
+        updateApiStatus(false, 'Demo Mode');
+        return;
+      }
+
+      if (!state.apiUrl) {
+        updateDashboardEmpty();
+        return;
+      }
+
+      try {
+        const res = await fetch(state.apiUrl, { redirect: 'follow' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Invalid response format');
+
+        state.articles = data.reverse(); // newest first
+        updateDashboard();
+        renderPreviewGrid();
+        renderArticlesTable();
+        updateApiStatus(true, `${data.length} articles`);
+        document.getElementById('articleCount').textContent = data.length;
+      } catch (err) {
+        console.error('Fetch error:', err);
+        updateApiStatus(false, err.message);
+        if (state.currentView === 'preview') {
+          document.getElementById('previewGrid').innerHTML = `
+            <div class="col-span-full text-center py-20">
+              <i data-lucide="wifi-off" class="w-10 h-10 text-silver-700 mx-auto mb-3"></i>
+              <p class="text-silver-500 text-sm">Failed to load articles</p>
+              <p class="text-silver-700 text-xs mt-1">${err.message}</p>
+              <button onclick="switchView('settings')" class="mt-4 px-4 py-2 bg-white/5 text-silver-400 text-xs rounded-lg hover:bg-white/10 transition-all">Go to Settings</button>
+            </div>`;
+          lucide.createIcons();
+        }
+      }
+    }
+
+    function refreshData() {
+      const icon = document.getElementById('refreshIcon');
+      icon.classList.add('spinner');
+      fetchArticles().finally(() => {
+        setTimeout(() => icon.classList.remove('spinner'), 500);
+      });
+    }
+
+    // ========================================
+    // DASHBOARD
+    // ========================================
+    function updateDashboard() {
+      const articles = state.articles;
+      document.getElementById('statTotal').textContent = articles.length;
+      document.getElementById('articleCount').textContent = articles.length;
+
+      // Categories
+      const cats = {};
+      articles.forEach(a => { cats[a.category || 'Uncategorized'] = (cats[a.category || 'Uncategorized'] || 0) + 1; });
+      document.getElementById('statCategories').textContent = Object.keys(cats).length;
+
+      // Latest
+      if (articles.length > 0) {
+        const latest = articles[0];
+        document.getElementById('statLatest').textContent = latest.title?.substring(0, 35) + (latest.title?.length > 35 ? '...' : '');
+        document.getElementById('statLatestDate').textContent = latest.date || 'No date';
+      }
+
+      // Recent list
+      const list = document.getElementById('recentArticlesList');
+      if (articles.length === 0) {
+        list.innerHTML = '<div class="text-sm text-silver-600 py-8 text-center">No articles yet. Write your first post!</div>';
+      } else {
+        list.innerHTML = articles.slice(0, 5).map((a, i) => {
+          const color = CATEGORY_COLORS[a.category] || DEFAULT_COLOR;
+          return `
+            <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer group slide-in" style="animation-delay: ${i * 60}ms">
+              <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-carbon-600">
+                ${a.image_url ? `<img src="${a.image_url}" alt="" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center"><i data-lucide="image" class="w-4 h-4 text-silver-700"></i></div>'}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-white truncate group-hover:text-hardwood-400 transition-colors">${a.title || 'Untitled'}</p>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <span class="px-1.5 py-0.5 ${color.bg} ${color.text} text-[9px] font-bold uppercase tracking-wider rounded">${a.category || 'Draft'}</span>
+                  <span class="text-[10px] text-silver-700">${a.date || ''}</span>
+                </div>
+              </div>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-silver-700 shrink-0"></i>
+            </div>`;
+        }).join('');
+      }
+
+      // Category breakdown
+      const catDiv = document.getElementById('categoryBreakdown');
+      if (Object.keys(cats).length === 0) {
+        catDiv.innerHTML = '<div class="text-sm text-silver-600 py-8 text-center">No data</div>';
+      } else {
+        const sorted = Object.entries(cats).sort((a, b) => b[1] - a[1]);
+        const max = sorted[0][1];
+        catDiv.innerHTML = sorted.map(([cat, count]) => {
+          const pct = Math.round((count / max) * 100);
+          const color = CATEGORY_COLORS[cat] || DEFAULT_COLOR;
+          return `
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="${color.text} font-medium">${cat}</span>
+                <span class="text-silver-600 font-mono">${count}</span>
+              </div>
+              <div class="w-full h-1.5 bg-white/5 rounded-full">
+                <div class="h-full rounded-full transition-all duration-700 ${cat === 'Analysis' ? 'bg-electric-500' : cat === 'Feature' ? 'bg-hardwood-500' : cat === 'Odds' ? 'bg-neon-500' : cat === 'Trade Rumors' ? 'bg-yellow-500' : 'bg-purple-500'}" style="width: ${pct}%"></div>
+              </div>
+            </div>`;
+        }).join('');
+      }
+
+      lucide.createIcons();
+    }
+
+    function updateDashboardEmpty() {
+      document.getElementById('statTotal').textContent = '0';
+      document.getElementById('statCategories').textContent = '0';
+      document.getElementById('statLatest').textContent = '—';
+      document.getElementById('statLatestDate').textContent = 'No posts yet';
+      document.getElementById('articleCount').textContent = '0';
+      updateApiStatus(false, state.apiUrl ? 'Check URL' : 'Configure in Settings');
+      updateDashboard();
+    }
+
+    // ========================================
+    // ARTICLE WRITING
+    // ========================================
+    function autoFillSlug() {
+      const title = document.getElementById('inputTitle').value.trim();
+      if (!title) { showToast('Enter a title first', 'warning'); return; }
+      const slug = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+      document.getElementById('inputSlug').value = slug;
+    }
+
+    function fillRandomImage() {
+      const seed = 'nba-' + Math.random().toString(36).substring(2, 8);
+      const url = `https://picsum.photos/seed/${seed}/900/500.jpg`;
+      document.getElementById('inputImage').value = url;
+      previewImage();
+    }
+
+    function previewImage() {
+      const url = document.getElementById('inputImage').value.trim();
+      const container = document.getElementById('imagePreviewContainer');
+      const img = document.getElementById('imagePreview');
+      const label = document.getElementById('imagePreviewUrl');
+
+      if (url) {
+        img.src = url;
+        label.textContent = url;
+        container.classList.remove('hidden');
+        img.onerror = () => container.classList.add('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+
+    function updateCharCount() {
+      const count = document.getElementById('inputContent').value.length;
+      document.getElementById('charCount').textContent = `${count} chars`;
+    }
+
+    async function publishArticle() {
+      const title = document.getElementById('inputTitle').value.trim();
+      const slug = document.getElementById('inputSlug').value.trim();
+      const category = document.getElementById('inputCategory').value;
+      const content = document.getElementById('inputContent').value.trim();
+      const image_url = document.getElementById('inputImage').value.trim();
+
+      // Validation
+      if (!title) { showToast('Title is required', 'error'); document.getElementById('inputTitle').focus(); return; }
+      if (!slug) { showToast('Slug is required — use Auto Slug', 'error'); document.getElementById('inputSlug').focus(); return; }
+      if (!content) { showToast('Content is required', 'error'); document.getElementById('inputContent').focus(); return; }
+
+      const payload = {
+        title, slug, category, content, image_url,
+        date: new Date().toISOString().split('T')[0],
+        admin_key: state.adminKey
+      };
+
+      // Update status
+      const statusEl = document.getElementById('publishStatus');
+      statusEl.innerHTML = '<div class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div><span class="text-xs text-yellow-400 font-medium">Publishing...</span>';
+
+      const btn = document.getElementById('publishBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full spinner"></div> Publishing...';
+
+      if (state.isDemo) {
+        // Simulate network delay
+        await new Promise(r => setTimeout(r, 1200));
+        state.articles.unshift(payload);
+        updateDashboard();
+        renderPreviewGrid();
+        renderArticlesTable();
+        statusEl.innerHTML = '<div class="w-2 h-2 rounded-full bg-neon-500"></div><span class="text-xs text-neon-400 font-medium">Published</span>';
+        showToast('Article published (Demo Mode)', 'success');
+        clearForm();
+      } else if (state.apiUrl) {
+        try {
+          const res = await fetch(state.apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload),
+            redirect: 'follow'
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            statusEl.innerHTML = '<div class="w-2 h-2 rounded-full bg-neon-500"></div><span class="text-xs text-neon-400 font-medium">Published</span>';
+            showToast('Article published successfully!', 'success');
+            clearForm();
+            fetchArticles();
+          } else {
+            throw new Error(data.error || 'Unknown error');
+          }
+        } catch (err) {
+          statusEl.innerHTML = '<div class="w-2 h-2 rounded-full bg-red-500"></div><span class="text-xs text-red-400 font-medium">Failed</span>';
+          showToast('Publish failed: ' + err.message, 'error');
+        }
+      } else {
+        statusEl.innerHTML = '<div class="w-2 h-2 rounded-full bg-red-500"></div><span class="text-xs text-red-400 font-medium">No API</span>';
+        showToast('Connect to Google Sheets first — go to Settings or enable Demo Mode', 'warning');
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> Publish to Sheets';
+      lucide.createIcons();
+    }
+
+    function clearForm() {
+      document.getElementById('inputTitle').value = '';
+      document.getElementById('inputSlug').value = '';
+      document.getElementById('inputCategory').value = 'Analysis';
+      document.getElementById('inputContent').value = '';
+      document.getElementById('inputImage').value = '';
+      document.getElementById('imagePreviewContainer').classList.add('hidden');
+      document.getElementById('charCount').textContent = '0 chars';
+      const statusEl = document.getElementById('publishStatus');
+      statusEl.innerHTML = '<div class="w-2 h-2 rounded-full bg-silver-600"></div><span class="text-xs text-silver-500 font-medium">Draft</span>';
+    }
+
+    // ========================================
+    // ARTICLES TABLE
+    // ========================================
+    function renderArticlesTable() {
+      const tbody = document.getElementById('articlesTableBody');
+      const articles = getFilteredArticles();
+
+      // Update category filter options
+      const filterEl = document.getElementById('filterCategory');
+      const currentVal = filterEl.value;
+      const cats = [...new Set(state.articles.map(a => a.category || 'Uncategorized'))];
+      filterEl.innerHTML = '<option value="all">All Categories</option>' +
+        cats.map(c => `<option value="${c}" ${c === currentVal ? 'selected' : ''} class="bg-carbon-800">${c}</option>`).join('');
+
+      if (articles.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-5 py-12 text-center text-silver-600 text-sm">No articles found</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = articles.map(a => {
+        const color = CATEGORY_COLORS[a.category] || DEFAULT_COLOR;
+        const excerpt = a.content?.substring(0, 60) + (a.content?.length > 60 ? '...' : '') || 'No content';
+        return `
+          <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-carbon-600 hidden sm:block">
+                  ${a.image_url ? `<img src="${a.image_url}" alt="" class="w-full h-full object-cover">` : ''}
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-white truncate max-w-xs">${a.title || 'Untitled'}</p>
+                  <p class="text-[10px] text-silver-700 truncate max-w-xs mt-0.5">${excerpt}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-4 hidden md:table-cell">
+              <span class="px-2 py-1 ${color.bg} ${color.text} text-[10px] font-bold uppercase tracking-wider rounded">${a.category || 'Draft'}</span>
+            </td>
+            <td class="px-5 py-4 hidden lg:table-cell">
+              <span class="text-xs text-silver-500 font-mono">${a.date || '—'}</span>
+            </td>
+            <td class="px-5 py-4 text-right">
+              <div class="flex items-center justify-end gap-1">
+                <button onclick="copySlug('${a.slug || ''}')" class="p-1.5 text-silver-600 hover:text-electric-400 hover:bg-electric-500/10 rounded transition-all" title="Copy slug">
+                  <i data-lucide="link" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="deleteArticle('${a.slug || ''}')" class="p-1.5 text-silver-600 hover:text-red-400 hover:bg-red-500/10 rounded transition-all" title="Delete">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </td>
+          </tr>`;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function getFilteredArticles() {
+      const search = (document.getElementById('searchArticles')?.value || '').toLowerCase();
+      const cat = document.getElementById('filterCategory')?.value || 'all';
+      return state.articles.filter(a => {
+        const matchSearch = !search || (a.title || '').toLowerCase().includes(search) || (a.content || '').toLowerCase().includes(search);
+        const matchCat = cat === 'all' || (a.category || 'Uncategorized') === cat;
+        return matchSearch && matchCat;
+      });
+    }
+
+    function filterArticles() {
+      renderArticlesTable();
+    }
+
+    function copySlug(slug) {
+      if (!slug) return;
+      navigator.clipboard.writeText(slug).then(() => showToast('Slug copied: ' + slug, 'success'));
+    }
+
+    function deleteArticle(slug) {
+      if (!slug) return;
+      if (!confirm(`Delete article "${slug}"?\n\nNote: This only removes it from the local view. Delete from Google Sheets manually.`)) return;
+      state.articles = state.articles.filter(a => a.slug !== slug);
+      updateDashboard();
+      renderArticlesTable();
+      renderPreviewGrid();
+      showToast('Article removed from local view', 'success');
+    }
+
+    // ========================================
+    // PREVIEW GRID (Frontend Reader)
+    // ========================================
+    function renderPreviewGrid() {
+      const grid = document.getElementById('previewGrid');
+      const articles = state.articles;
+
+      if (!articles || articles.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-20">
+            <i data-lucide="newspaper" class="w-10 h-10 text-silver-700 mx-auto mb-3"></i>
+            <p class="text-silver-500 text-sm">No articles to display</p>
+            <p class="text-silver-700 text-xs mt-1">Publish your first article or check your connection</p>
+          </div>`;
+        lucide.createIcons();
+        return;
+      }
+
+      grid.innerHTML = articles.map((a, i) => {
+        const color = CATEGORY_COLORS[a.category] || DEFAULT_COLOR;
+        const excerpt = a.content?.substring(0, 120) + (a.content?.length > 120 ? '...' : '') || 'No excerpt available.';
+        // Simple markdown bold/italic
+        const displayExcerpt = excerpt.replace(/\*\*(.*?)\*\*/g, '<strong class="text-silver-300">$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+        return `
+          <div class="bg-carbon-700/40 border border-white/5 rounded-xl overflow-hidden group cursor-pointer card-hover fade-up" style="animation-delay: ${i * 80}ms; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <div class="aspect-video overflow-hidden relative">
+              ${a.image_url
+                ? `<img src="${a.image_url}" alt="" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">`
+                : `<div class="w-full h-full bg-carbon-600 flex items-center justify-center"><i data-lucide="image" class="w-8 h-8 text-silver-700"></i></div>`
+              }
+              <div class="absolute inset-0 bg-gradient-to-t from-carbon-900/80 via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3">
+                <span class="px-2 py-0.5 ${color.bg} ${color.text} text-[9px] font-bold uppercase tracking-wider rounded">${a.category || 'Draft'}</span>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-heading text-base font-bold text-white uppercase tracking-tight leading-tight mb-2 group-hover:text-hardwood-400 transition-colors line-clamp-2">${a.title || 'Untitled'}</h3>
+              <p class="text-silver-500 text-xs leading-relaxed line-clamp-3 mb-3">${displayExcerpt}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] text-silver-700 font-mono">${a.date || ''}</span>
+                <span class="text-hardwood-400 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Read <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </span>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // ========================================
+    // SETUP MODAL
+    // ========================================
+    function openSetupModal() {
+      const modal = document.getElementById('setupModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeSetupModal() {
+      const modal = document.getElementById('setupModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyScript() {
+      const code = document.getElementById('appsScriptCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.getElementById('copyScriptBtn');
+        btn.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i> Copied!';
+        lucide.createIcons();
+        setTimeout(() => {
+          btn.innerHTML = '<i data-lucide="copy" class="w-3 h-3"></i> Copy';
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('setupModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('setupModal')) closeSetupModal();
+    });
+
+    // ========================================
+    // TOAST NOTIFICATIONS
+    // ========================================
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+
+      const colors = {
+        success: 'border-neon-500/30 bg-neon-500/10',
+        error: 'border-red-500/30 bg-red-500/10',
+        warning: 'border-yellow-500/30 bg-yellow-500/10',
+        info: 'border-electric-500/30 bg-electric-500/10'
+      };
+      const textColors = {
+        success: 'text-neon-400',
+        error: 'text-red-400',
+        warning: 'text-yellow-400',
+        info: 'text-electric-400'
+      };
+      const icons = {
+        success: 'check-circle',
+        error: 'alert-circle',
+        warning: 'alert-triangle',
+        info: 'info'
+      };
+
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border ${colors[type]} backdrop-blur-md toast-enter max-w-sm`;
+      toast.innerHTML = `
+        <i data-lucide="${icons[type]}" class="w-4 h-4 ${textColors[type]} shrink-0"></i>
+        <span class="text-sm ${textColors[type]} font-medium">${message}</span>
+      `;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
