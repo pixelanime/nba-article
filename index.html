@@ -1065,6 +1065,18 @@ function simulateLiveUpdates(){
       g.time=mins+":"+secs;
     }
   });
+document.addEventListener("DOMContentLoaded",function(){
+  fetchNBAData();renderLiveScores();renderPredictions();renderStandings("east");
+  renderPlayerStats();renderArticles();renderSchedule();createParticles();
+  animateCounter(document.getElementById("heroStatArticles"),247);
+  animateCounter(document.getElementById("heroStatPlayers"),1240);
+  animateCounter(document.getElementById("heroStatReaders"),48200);
+  initScrollAnimations();initActiveNav();initHeroParallax();
+  setInterval(simulateLiveUpdates,8000);
+  document.getElementById("adminPass").addEventListener("keydown",function(e){if(e.key==="Enter")handleAdminLogin()});
+  document.getElementById("adminUser").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("adminPass").focus()});
+});
+  
   renderLiveScores();
 }
 
