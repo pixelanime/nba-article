@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUNK NATION — Pro Basketball Analysis & Scouting</title>
+<meta name="description" content="Your premium source for professional basketball analysis, prospect scouting, live scores, and league dynamics.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dunknation.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "DUNK NATION",
+  "url": "https://dunknation.com",
+  "description": "Premium basketball analysis, prospect scouting, and live scores",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://dunknation.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{--bg:#08080e;--bg-elevated:#0e0e18;--surface:#12121c;--card:#1a1a28;--card-hover:#222235;--border:#2a2a3d;--border-light:#35354d;--fg:#f0ece4;--fg-secondary:#b0acb8;--muted:#6e6a7a;--accent:#ff6b2b;--accent-hover:#ff8c42;--accent-glow:rgba(255,107,43,0.25);--gold:#f5c542;--success:#22c997;--danger:#ef4444;--court-line:rgba(255,255,255,0.08);--radius:10px;--radius-lg:16px;--shadow:0 4px 24px rgba(0,0,0,0.4);--shadow-lg:0 8px 48px rgba(0,0,0,0.6);--font-display:'Oswald',sans-serif;--font-body:'DM Sans',sans-serif;--nav-height:64px;--max-width:1280px;--transition:0.25s cubic-bezier(0.4,0,0.2,1)}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 20px)}
+  body{font-family:var(--font-body);background:var(--bg);color:var(--fg);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}input,textarea,select{font-family:inherit;color:inherit}
+  ::selection{background:var(--accent);color:#fff}
+  ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--border-light)}
+  .container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
+  .section-label{font-family:var(--font-display);font-size:.75rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .section-title{font-family:var(--font-display);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;line-height:1.15;margin-bottom:16px}
+  .section-desc{color:var(--fg-secondary);max-width:560px;margin-bottom:32px}
+  .fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
+  .ad-slot{background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;position:relative;overflow:hidden;min-height:90px}
+  .ad-slot::before{content:'Advertisement';position:absolute;top:6px;left:10px;font-size:.6rem;opacity:.5}
+  .ad-slot-header{max-width:728px;height:90px;margin:12px auto}.ad-slot-sidebar{height:250px;margin-bottom:24px}.ad-slot-inline{max-width:728px;height:100px;margin:32px auto}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);background:rgba(8,8,14,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+  .nav-inner{max-width:var(--max-width);margin:0 auto;padding:0 20px;height:100%;display:flex;align-items:center;gap:24px}
+  .nav-logo{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--fg);flex-shrink:0;display:flex;align-items:center;gap:8px}
+  .dunk-logo{width:32px;height:32px;flex-shrink:0;filter:drop-shadow(0 0 8px var(--accent-glow));animation:logoPulse 3s ease-in-out infinite}.dunk-logo svg{width:100%;height:100%}
+  @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 8px var(--accent-glow))}50%{filter:drop-shadow(0 0 16px var(--accent-glow))}}
+  .nav-links{display:flex;gap:4px;flex:1}.nav-links a{padding:8px 14px;border-radius:6px;font-size:.85rem;font-weight:500;color:var(--fg-secondary);transition:all var(--transition);white-space:nowrap}.nav-links a:hover,.nav-links a.active{color:var(--fg);background:rgba(255,255,255,.06)}
+  .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .nav-btn{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--fg-secondary);transition:all var(--transition);font-size:.95rem}.nav-btn:hover{color:var(--fg);background:rgba(255,255,255,.06)}
+  .nav-admin-btn{padding:7px 16px;border-radius:8px;font-size:.8rem;font-weight:600;background:var(--accent);color:#fff;transition:all var(--transition)}.nav-admin-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+  .mobile-menu-btn{display:none}
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding-top:var(--nav-height);overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(255,107,43,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 20% 70%,rgba(245,197,66,.06) 0%,transparent 50%),var(--bg)}
+  .hero-court{position:absolute;inset:0;z-index:0;opacity:.04;background:linear-gradient(var(--court-line) 1px,transparent 1px),linear-gradient(90deg,var(--court-line) 1px,transparent 1px);background-size:60px 60px}
+  .hero-court::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;border:2px solid rgba(255,255,255,.15)}
+  .hero-particles{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .particle{position:absolute;border-radius:50%;opacity:0;animation:floatUp linear infinite}
+  @keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(0)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translateY(-100vh) scale(1)}}
+  .hero-content{position:relative;z-index:1;width:100%}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(255,107,43,.1);border:1px solid rgba(255,107,43,.2);font-size:.78rem;font-weight:600;color:var(--accent);margin-bottom:24px;letter-spacing:.5px}
+  .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 1.5s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero-title{font-family:var(--font-display);font-size:clamp(3.5rem,10vw,8rem);font-weight:700;line-height:.95;letter-spacing:-1px;margin-bottom:8px}.hero-title .accent{color:var(--accent)}
+  .hero-subtitle{font-family:var(--font-display);font-size:clamp(1rem,2.5vw,1.4rem);font-weight:400;color:var(--fg-secondary);letter-spacing:4px;text-transform:uppercase;margin-bottom:24px}
+  .hero-desc{font-size:1.05rem;color:var(--fg-secondary);max-width:480px;line-height:1.7;margin-bottom:36px}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .btn-primary{padding:14px 32px;border-radius:var(--radius);font-weight:600;font-size:.9rem;background:var(--accent);color:#fff;transition:all var(--transition);display:inline-flex;align-items:center;gap:8px}.btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow)}
+  .btn-secondary{padding:14px 32px;border-radius:var(--radius);font-weight:600;font-size:.9rem;background:transparent;color:var(--fg);border:1px solid var(--border);transition:all var(--transition);display:inline-flex;align-items:center;gap:8px}.btn-secondary:hover{border-color:var(--fg-secondary);background:rgba(255,255,255,.03)}
+  .hero-stats-row{display:flex;gap:40px;margin-top:56px;padding-top:32px;border-top:1px solid var(--border)}
+  .hero-stat-num{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--fg)}.hero-stat-label{font-size:.78rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:1px}
+  .live-section{padding:80px 0 0}.live-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory}.live-scroll::-webkit-scrollbar{height:4px}
+  .live-card{flex:0 0 320px;scroll-snap-align:start;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;transition:all var(--transition);position:relative;overflow:hidden}.live-card:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:var(--shadow)}
+  .live-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold))}.live-card.is-final::before{background:var(--muted)}
+  .live-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .live-status{font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:4px}
+  .live-status.live{background:rgba(239,68,68,.15);color:var(--danger)}.live-status.upcoming{background:rgba(34,201,151,.15);color:var(--success)}.live-status.final{background:rgba(110,106,122,.15);color:var(--muted)}
+  .live-time{font-size:.75rem;color:var(--muted);font-family:var(--font-display)}
+  .live-team{display:flex;align-items:center;justify-content:space-between;padding:8px 0}.live-team-info{display:flex;align-items:center;gap:10px}
+  .live-team-abbr{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.75rem;font-weight:700;color:#fff}
+  .live-team-name{font-size:.88rem;font-weight:500}.live-team-city{font-size:.72rem;color:var(--muted)}
+  .live-team-score{font-family:var(--font-display);font-size:1.6rem;font-weight:700;min-width:40px;text-align:right}.live-team-score.winning{color:var(--accent)}
+  .live-divider{height:1px;background:var(--border);margin:4px 0}
+  .predictions-section{padding:80px 0}.predictions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+  .predict-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:all var(--transition)}.predict-card:hover{border-color:var(--border-light)}
+  .predict-matchup{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.predict-team{text-align:center;flex:1}
+  .predict-team-abbr{width:48px;height:48px;border-radius:12px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.85rem;font-weight:700;color:#fff}
+  .predict-team-name{font-size:.85rem;font-weight:500}.predict-vs{font-family:var(--font-display);font-size:.85rem;color:var(--muted);font-weight:700}
+  .predict-bar-container{position:relative;height:28px;border-radius:6px;overflow:hidden;background:var(--surface)}
+  .predict-bar{position:absolute;top:0;left:0;height:100%;border-radius:6px;transition:width 1.5s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;padding-left:10px;font-family:var(--font-display);font-size:.8rem;font-weight:700;color:#fff}
+  .predict-meta{display:flex;justify-content:space-between;margin-top:12px;font-size:.75rem;color:var(--muted)}
+  .standings-section{padding:80px 0}.standings-tabs{display:flex;gap:4px;margin-bottom:24px}
+  .standings-tab{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:600;color:var(--fg-secondary);transition:all var(--transition);background:transparent;border:1px solid transparent}
+  .standings-tab.active{background:var(--card);color:var(--fg);border-color:var(--border)}.standings-tab:hover:not(.active){color:var(--fg)}
+  .table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
+  .standings-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:600px}
+  .standings-table thead{background:var(--surface)}.standings-table th{padding:14px 16px;text-align:left;font-weight:600;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);white-space:nowrap}
+  .standings-table td{padding:12px 16px;border-bottom:1px solid rgba(42,42,61,.5);white-space:nowrap;transition:background var(--transition)}.standings-table tbody tr:hover td{background:rgba(255,255,255,.02)}.standings-table tbody tr:last-child td{border-bottom:none}
+  .team-cell{display:flex;align-items:center;gap:10px}.team-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.team-cell-name{font-weight:500}
+  .pct-bar{width:60px;height:6px;border-radius:3px;background:var(--surface);overflow:hidden;display:inline-block;vertical-align:middle;margin-left:8px}.pct-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+  .streak{font-weight:600;font-size:.8rem}.streak-w{color:var(--success)}.streak-l{color:var(--danger)}
+  .stats-section{padding:80px 0}.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .player-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:all var(--transition);position:relative;overflow:hidden}.player-card:hover{border-color:var(--border-light);transform:translateY(-3px);box-shadow:var(--shadow)}
+  .player-card-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .player-avatar{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;font-weight:700;color:#fff}
+  .player-name{font-weight:600;font-size:.95rem}.player-meta{font-size:.75rem;color:var(--muted)}
+  .player-rank{position:absolute;top:16px;right:16px;font-family:var(--font-display);font-size:2rem;font-weight:700;color:rgba(255,255,255,.04);line-height:1}
+  .stat-bars{display:flex;flex-direction:column;gap:10px}.stat-bar-row{display:flex;align-items:center;gap:10px}
+  .stat-bar-label{font-size:.7rem;font-weight:600;color:var(--muted);width:32px;text-transform:uppercase}
+  .stat-bar-track{flex:1;height:6px;border-radius:3px;background:var(--surface);overflow:hidden}
+  .stat-bar-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+  .stat-bar-val{font-family:var(--font-display);font-size:.85rem;font-weight:600;width:36px;text-align:right}
+  .articles-section{padding:80px 0}.articles-layout{display:grid;grid-template-columns:1fr 300px;gap:32px}
+  .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+  .article-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition);cursor:pointer}.article-card:hover{border-color:var(--border-light);transform:translateY(-3px);box-shadow:var(--shadow)}
+  .article-card-img{width:100%;height:180px;object-fit:cover;transition:transform .4s ease}.article-card:hover .article-card-img{transform:scale(1.05)}
+  .article-card-img-wrap{overflow:hidden;position:relative}
+  .article-card-cat{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:4px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:var(--accent);color:#fff}
+  .article-card-body{padding:18px}.article-card-title{font-weight:600;font-size:1rem;line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .article-card-excerpt{font-size:.82rem;color:var(--fg-secondary);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px}
+  .article-card-footer{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--muted)}.article-card-author{display:flex;align-items:center;gap:6px}
+  .sidebar-sticky{position:sticky;top:calc(var(--nav-height) + 20px);display:flex;flex-direction:column;gap:20px}
+  .sidebar-widget{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+  .sidebar-widget-title{font-family:var(--font-display);font-size:.9rem;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+  .trending-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(42,42,61,.4);cursor:pointer}.trending-item:last-child{border-bottom:none}
+  .trending-num{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--accent);width:28px;flex-shrink:0}
+  .trending-title{font-size:.82rem;font-weight:500;line-height:1.4}.trending-cat{font-size:.68rem;color:var(--muted);margin-top:2px}
+  .schedule-section{padding:80px 0}.schedule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+  .schedule-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;display:flex;align-items:center;gap:16px;transition:all var(--transition)}.schedule-card:hover{border-color:var(--border-light)}
+  .schedule-date{text-align:center;flex-shrink:0;width:56px}.schedule-date-day{font-family:var(--font-display);font-size:1.6rem;font-weight:700;line-height:1}.schedule-date-month{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .schedule-divider{width:1px;height:48px;background:var(--border);flex-shrink:0}
+  .schedule-matchup{flex:1}.schedule-teams{font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:8px}.schedule-info{font-size:.72rem;color:var(--muted);margin-top:4px}
+  .footer{margin-top:80px;padding:48px 0 32px;border-top:1px solid var(--border);background:var(--bg-elevated)}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+  .footer-brand-desc{font-size:.85rem;color:var(--fg-secondary);line-height:1.7;margin-top:12px;max-width:300px}
+  .footer-heading{font-family:var(--font-display);font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;color:var(--fg)}
+  .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}.footer-links a{font-size:.84rem;color:var(--fg-secondary);transition:color var(--transition)}.footer-links a:hover{color:var(--accent)}
+  .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.78rem;color:var(--muted)}
+  .search-overlay{position:fixed;inset:0;z-index:2000;background:rgba(8,8,14,.92);backdrop-filter:blur(24px);display:none;align-items:flex-start;justify-content:center;padding-top:15vh}
+  .search-overlay.open{display:flex;animation:fadeIn .2s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .search-box{width:90%;max-width:640px}
+  .search-input-wrap{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:var(--radius-lg);background:var(--card);border:1px solid var(--border);font-size:1.1rem;transition:border-color var(--transition)}.search-input-wrap:focus-within{border-color:var(--accent)}
+  .search-input-wrap i{color:var(--muted);font-size:1.1rem}.search-input{flex:1;background:none;border:none;outline:none;font-size:1.1rem;color:var(--fg)}.search-input::placeholder{color:var(--muted)}
+  .search-hint{font-size:.78rem;color:var(--muted);margin-top:12px;padding-left:4px}
+  .search-results{margin-top:16px;max-height:50vh;overflow-y:auto}
+  .search-result-item{padding:14px 16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:all var(--transition)}.search-result-item:hover{border-color:var(--accent);background:var(--card-hover)}
+  .search-result-title{font-weight:500;font-size:.9rem;margin-bottom:4px}.search-result-meta{font-size:.72rem;color:var(--muted)}.search-no-results{text-align:center;padding:32px;color:var(--muted);font-size:.9rem}
+  .modal-overlay{position:fixed;inset:0;z-index:3000;background:rgba(8,8,14,.88);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);max-width:640px;width:100%;max-height:80vh;overflow-y:auto;padding:32px;position:relative}
+  .modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all var(--transition);font-size:1.1rem}.modal-close:hover{color:var(--fg);background:rgba(255,255,255,.06)}
+  .modal-title{font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:20px}
+  .modal-body{font-size:.9rem;color:var(--fg-secondary);line-height:1.8}.modal-body p{margin-bottom:16px}.modal-body h3{font-family:var(--font-display);font-size:1.1rem;color:var(--fg);margin:20px 0 10px}
+  .toast-container{position:fixed;top:calc(var(--nav-height) + 12px);right:20px;z-index:5000;display:flex;flex-direction:column;gap:8px}
+  .toast{padding:14px 20px;border-radius:var(--radius);font-size:.84rem;font-weight:500;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;animation:slideInRight .3s ease;max-width:360px}
+  .toast.success{border-left:3px solid var(--success)}.toast.error{border-left:3px solid var(--danger)}.toast.info{border-left:3px solid var(--accent)}
+  @keyframes slideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+  .admin-overlay{position:fixed;inset:0;z-index:4000;background:var(--bg);display:none;overflow-y:auto}.admin-overlay.open{display:block;animation:fadeIn .3s ease}
+  .admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .admin-login-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:40px;max-width:400px;width:100%}
+  .admin-login-title{font-family:var(--font-display);font-size:1.6rem;font-weight:700;margin-bottom:8px;text-align:center}.admin-login-sub{font-size:.84rem;color:var(--muted);text-align:center;margin-bottom:28px}
+  .form-group{margin-bottom:18px}.form-label{display:block;font-size:.78rem;font-weight:600;color:var(--fg-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+  .form-input{width:100%;padding:12px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--border);font-size:.9rem;color:var(--fg);outline:none;transition:border-color var(--transition)}.form-input:focus{border-color:var(--accent)}.form-input.error{border-color:var(--danger)}
+  .form-error{font-size:.72rem;color:var(--danger);margin-top:4px;display:none}.form-error.show{display:block}
+  .form-btn{width:100%;padding:13px;border-radius:8px;font-weight:600;font-size:.9rem;background:var(--accent);color:#fff;transition:all var(--transition);margin-top:8px}.form-btn:hover{background:var(--accent-hover)}
+  .admin-layout{display:flex;min-height:100vh}
+  .admin-sidebar{width:240px;background:var(--bg-elevated);border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+  .admin-sidebar-logo{font-family:var(--font-display);font-size:1.1rem;font-weight:700;padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .admin-logo-sm{width:22px;height:22px}.admin-logo-sm svg{width:100%;height:100%}
+  .admin-nav{list-style:none;padding:0 8px}.admin-nav li{margin-bottom:2px}
+  .admin-nav button{width:100%;padding:10px 16px;border-radius:8px;font-size:.84rem;font-weight:500;color:var(--fg-secondary);text-align:left;display:flex;align-items:center;gap:10px;transition:all var(--transition)}
+  .admin-nav button:hover{color:var(--fg);background:rgba(255,255,255,.04)}.admin-nav button.active{color:var(--accent);background:rgba(255,107,43,.08)}.admin-nav button i{width:18px;text-align:center}
+  .admin-main{flex:1;padding:28px 32px;overflow-y:auto}
+  .admin-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+  .admin-page-title{font-family:var(--font-display);font-size:1.4rem;font-weight:700}
+  .admin-logout{padding:8px 16px;border-radius:8px;font-size:.8rem;font-weight:600;border:1px solid var(--border);color:var(--fg-secondary);transition:all var(--transition)}.admin-logout:hover{border-color:var(--danger);color:var(--danger)}
+  .admin-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+  .admin-stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+  .admin-stat-card .label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+  .admin-stat-card .value{font-family:var(--font-display);font-size:1.8rem;font-weight:700}
+  .admin-stat-card .change{font-size:.75rem;margin-top:4px}.admin-stat-card .change.up{color:var(--success)}.admin-stat-card .change.down{color:var(--danger)}
+  .admin-table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
+  .admin-table{width:100%;border-collapse:collapse;font-size:.84rem}.admin-table thead{background:var(--surface)}
+  .admin-table th{padding:12px 16px;text-align:left;font-weight:600;color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)}
+  .admin-table td{padding:12px 16px;border-bottom:1px solid rgba(42,42,61,.4)}.admin-table tbody tr:hover td{background:rgba(255,255,255,.02)}.admin-table tbody tr:last-child td{border-bottom:none}
+  .badge{padding:3px 8px;border-radius:4px;font-size:.7rem;font-weight:600}.badge-published{background:rgba(34,201,151,.15);color:var(--success)}.badge-synced{background:rgba(255,107,43,.15);color:var(--accent)}
+  .action-btn{padding:5px 10px;border-radius:4px;font-size:.72rem;font-weight:600;transition:all var(--transition);margin-right:4px}
+  .action-edit{background:rgba(255,255,255,.06);color:var(--fg-secondary)}.action-edit:hover{background:rgba(255,255,255,.1);color:var(--fg)}
+  .action-delete{background:rgba(239,68,68,.1);color:var(--danger)}.action-delete:hover{background:rgba(239,68,68,.2)}
+  .admin-editor{margin-top:24px}
+  .editor-toolbar{display:flex;gap:2px;padding:8px;border-bottom:1px solid var(--border);background:var(--surface);border-radius:var(--radius) var(--radius) 0 0}
+  .editor-toolbar button{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--fg-secondary);font-size:.85rem;transition:all var(--transition)}.editor-toolbar button:hover{background:rgba(255,255,255,.06);color:var(--fg)}
+  .editor-content{min-height:240px;padding:16px;border-radius:0 0 var(--radius) var(--radius);background:var(--card);border:1px solid var(--border);border-top:none;font-size:.9rem;line-height:1.8;color:var(--fg);outline:none}.editor-content:focus{border-color:var(--accent)}
+  .settings-group{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px}
+  .settings-group-title{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}.settings-group-title i{color:var(--accent)}
+  .settings-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}.settings-row:last-child{margin-bottom:0}
+  .settings-actions{display:flex;gap:10px;margin-top:20px}
+  .article-detail{display:none}.article-detail.open{display:block}
+  .article-detail-back{display:inline-flex;align-items:center;gap:8px;padding:8px 0;font-size:.84rem;color:var(--fg-secondary);margin-bottom:24px;transition:color var(--transition)}.article-detail-back:hover{color:var(--accent)}
+  .article-detail-hero{width:100%;height:400px;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:28px}.article-detail-hero img{width:100%;height:100%;object-fit:cover}
+  .article-detail-cat{display:inline-block;padding:4px 12px;border-radius:4px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+  .article-detail-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.15;margin-bottom:16px}
+  .article-detail-meta{display:flex;gap:20px;font-size:.82rem;color:var(--muted);margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .article-detail-body{font-size:1rem;line-height:1.9;color:var(--fg-secondary);max-width:720px}.article-detail-body p{margin-bottom:20px}
+  .article-detail-body h2{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--fg);margin:32px 0 16px}
+  .article-detail-body blockquote{border-left:3px solid var(--accent);padding:16px 20px;margin:24px 0;background:var(--card);border-radius:0 var(--radius) var(--radius) 0;font-style:italic;color:var(--fg)}
+  .mobile-nav{position:fixed;inset:0;z-index:2000;background:rgba(8,8,14,.95);backdrop-filter:blur(20px);display:none;flex-direction:column;padding:80px 24px 24px}
+  .mobile-nav.open{display:flex;animation:fadeIn .2s ease}.mobile-nav a{padding:16px 0;font-size:1.2rem;font-weight:600;border-bottom:1px solid var(--border);color:var(--fg-secondary);transition:color var(--transition)}.mobile-nav a:hover{color:var(--accent)}
+  .mobile-nav-close{position:absolute;top:16px;right:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--fg)}
+  .api-status{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--muted);padding:6px 12px;background:var(--surface);border-radius:6px;margin-bottom:16px}
+  .api-status .dot{width:6px;height:6px;border-radius:50%}.api-status .dot.online{background:var(--success)}.api-status .dot.offline{background:var(--danger)}.api-status .dot.loading{background:var(--gold);animation:blink 1s ease-in-out infinite}
+  .api-status .refresh-btn{margin-left:auto;padding:2px 8px;border-radius:4px;font-size:.68rem;background:rgba(255,255,255,.06);color:var(--fg-secondary);transition:all var(--transition)}.api-status .refresh-btn:hover{background:rgba(255,255,255,.1);color:var(--fg)}
+  @media(max-width:1024px){.articles-layout{grid-template-columns:1fr}.sidebar-sticky{position:static;flex-direction:row;overflow-x:auto}.sidebar-widget{flex:0 0 280px}.footer-grid{grid-template-columns:1fr 1fr}.admin-sidebar{width:200px}}
+  @media(max-width:768px){.nav-links{display:none}.mobile-menu-btn{display:flex}.hero-title{font-size:clamp(3rem,14vw,5rem)}.hero-stats-row{gap:24px;flex-wrap:wrap}.hero-stat-num{font-size:1.6rem}.predictions-grid,.stats-grid,.articles-grid,.schedule-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr;gap:28px}.footer-bottom{flex-direction:column;text-align:center}.admin-layout{flex-direction:column}.admin-sidebar{width:100%;height:auto;position:static;padding:12px 0}.admin-nav{display:flex;overflow-x:auto;padding:0 12px}.admin-nav li{flex-shrink:0}.admin-sidebar-logo{padding:0 16px 12px}.admin-main{padding:20px 16px}.settings-row{grid-template-columns:1fr}.article-detail-hero{height:240px}.sidebar-sticky{flex-direction:column}.sidebar-widget{flex:auto}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.particle{display:none}}
+</style>
+</head>
+<body>
+<div class="toast-container" id="toastContainer"></div>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-label="Search"><div class="search-box"><div class="search-input-wrap"><i class="fas fa-search"></i><input type="text" class="search-input" id="searchInput" placeholder="Search players, teams, articles..." autocomplete="off" aria-label="Search"><button onclick="closeSearch()" aria-label="Close search"><i class="fas fa-times"></i></button></div><div class="search-hint">Press ESC to close &middot; Ctrl+K to open</div><div class="search-results" id="searchResults"></div></div></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"><button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu"><i class="fas fa-times"></i></button><a href="#live" onclick="closeMobileNav()">Live Scores</a><a href="#predictions" onclick="closeMobileNav()">Predictions</a><a href="#standings" onclick="closeMobileNav()">Standings</a><a href="#stats" onclick="closeMobileNav()">Player Stats</a><a href="#articles" onclick="closeMobileNav()">Articles</a><a href="#schedule" onclick="closeMobileNav()">Schedule</a><a href="#" onclick="closeMobileNav();openAdmin()">Admin</a></nav>
+<div class="modal-overlay" id="aboutModal"><div class="modal"><button class="modal-close" onclick="closeModal('aboutModal')" aria-label="Close"><i class="fas fa-times"></i></button><h2 class="modal-title">About Us</h2><div class="modal-body"><p>Welcome to <strong>DUNK NATION</strong>, your premium source for professional basketball analysis, prospect scouting, and league dynamics.</p><p>Our mission is to deliver fast, data-driven content for the modern basketball enthusiast.</p><h3>Our Team</h3><p>Operated by a small team of basketball analysts, data scientists, and writers who share a passion for the game.</p><h3>Contact</h3><p>Reach out at contact@dunknation.com.</p></div></div></div>
+<div class="modal-overlay" id="privacyModal"><div class="modal"><button class="modal-close" onclick="closeModal('privacyModal')" aria-label="Close"><i class="fas fa-times"></i></button><h2 class="modal-title">Privacy Policy</h2><div class="modal-body"><p><strong>Last updated:</strong> January 2025</p><h3>Data Collection</h3><p>We follow standard procedures for log files and cookies.</p><h3>Third-Party Services</h3><p>We use Google Analytics 4, Google AdSense, and Monetag.</p><h3>Data Security</h3><p>We implement appropriate security measures. No transmission over the Internet is 100% secure.</p></div></div></div>
+<div class="modal-overlay" id="disclaimerModal"><div class="modal"><button class="modal-close" onclick="closeModal('disclaimerModal')" aria-label="Close"><i class="fas fa-times"></i></button><h2 class="modal-title">Disclaimer</h2><div class="modal-body"><h3>Match Predictions</h3><p>Predictions are for informational and entertainment purposes only.</p><h3>No Gambling Endorsement</h3><p>DUNK NATION does not promote or encourage illegal gambling.</p><h3>Affiliation</h3><p>DUNK NATION is an independent publication not affiliated with any professional basketball league.</p></div></div></div>
+<div class="admin-overlay" id="adminOverlay"><div class="admin-login" id="adminLogin"><div class="admin-login-box"><div style="text-align:center;margin-bottom:20px"><div class="dunk-logo" style="width:48px;height:48px;margin:0 auto 12px"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" stroke="#ff6b2b" stroke-width="3"/><circle cx="50" cy="50" r="35" stroke="#ff6b2b" stroke-width="1.5" opacity="0.5"/><path d="M50 8C27.9 8 10 25.9 10 48s17.9 40 40 40" stroke="#ff6b2b" stroke-width="2.5" stroke-linecap="round"/><path d="M35 55L50 25L65 55" stroke="#ff6b2b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="42" y1="45" x2="58" y2="45" stroke="#ff6b2b" stroke-width="2.5" stroke-linecap="round"/></svg></div></div><div class="admin-login-title">Admin Access</div><div class="admin-login-sub">Sign in to manage DUNK NATION</div><div class="form-group"><label class="form-label" for="adminUser">Username</label><input type="text" class="form-input" id="adminUser" placeholder="Enter username" autocomplete="off"><div class="form-error" id="userError">Invalid username</div></div><div class="form-group"><label class="form-label" for="adminPass">Password</label><input type="password" class="form-input" id="adminPass" placeholder="Enter password"><div class="form-error" id="passError">Invalid password</div></div><button class="form-btn" onclick="handleAdminLogin()">Sign In</button><div style="text-align:center;margin-top:16px"><button onclick="closeAdmin()" style="font-size:.8rem;color:var(--muted);transition:color .2s" onmouseover="this.style.color='var(--fg)'" onmouseout="this.style.color='var(--muted)'">Back to Site</button></div></div></div><div class="admin-layout" id="adminDashboard" style="display:none"><aside class="admin-sidebar"><div class="admin-sidebar-logo"><div class="admin-logo-sm"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" stroke="#ff6b2b" stroke-width="4"/><path d="M35 55L50 25L65 55" stroke="#ff6b2b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="42" y1="45" x2="58" y2="45" stroke="#ff6b2b" stroke-width="3" stroke-linecap="round"/></svg></div> DUNK NATION</div><ul class="admin-nav"><li><button class="active" data-admin-tab="overview" onclick="switchAdminTab('overview')"><i class="fas fa-chart-line"></i> Overview</button></li><li><button data-admin-tab="articles" onclick="switchAdminTab('articles')"><i class="fas fa-newspaper"></i> Articles</button></li><li><button data-admin-tab="editor" onclick="switchAdminTab('editor')"><i class="fas fa-pen-fancy"></i> New Post</button></li><li><button data-admin-tab="sheets" onclick="switchAdminTab('sheets')"><i class="fas fa-table"></i> Sheets Sync</button></li><li><button data-admin-tab="ads" onclick="switchAdminTab('ads')"><i class="fas fa-ad"></i> Ad Settings</button></li><li><button data-admin-tab="api" onclick="switchAdminTab('api')"><i class="fas fa-key"></i> API Keys</button></li></ul></aside><div class="admin-main"><div class="admin-topbar"><h1 class="admin-page-title" id="adminPageTitle">Dashboard Overview</h1><button class="admin-logout" onclick="handleAdminLogout()"><i class="fas fa-sign-out-alt"></i> Sign Out</button></div><div id="adminContent"></div></div></div></div>
+<header class="nav" role="banner"><div class="nav-inner"><a href="#" class="nav-logo" onclick="showHomeView();return false"><div class="dunk-logo"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" stroke="#ff6b2b" stroke-width="3"/><circle cx="50" cy="50" r="35" stroke="#ff6b2b" stroke-width="1.5" opacity="0.5"/><path d="M50 8C27.9 8 10 25.9 10 48s17.9 40 40 40" stroke="#ff6b2b" stroke-width="2.5" stroke-linecap="round"/><path d="M35 55L50 25L65 55" stroke="#ff6b2b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="42" y1="45" x2="58" y2="45" stroke="#ff6b2b" stroke-width="2.5" stroke-linecap="round"/></svg></div> DUNK NATION</a><nav class="nav-links" aria-label="Main navigation"><a href="#live">Live Scores</a><a href="#predictions">Predictions</a><a href="#standings">Standings</a><a href="#stats">Player Stats</a><a href="#articles">Articles</a><a href="#schedule">Schedule</a></nav><div class="nav-actions"><button class="nav-btn" onclick="openSearch()" aria-label="Search"><i class="fas fa-search"></i></button><button class="nav-admin-btn" onclick="openAdmin()">Admin</button><button class="nav-btn mobile-menu-btn" onclick="openMobileNav()" aria-label="Menu"><i class="fas fa-bars"></i></button></div></div></header>
+<main id="mainContent">
+  <section class="hero" id="hero"><div class="hero-bg"></div><div class="hero-court"></div><div class="hero-particles" id="heroParticles"></div><div class="container hero-content"><div class="hero-badge"><span class="dot"></span> Live Coverage Active</div><h1 class="hero-title">DUNK <span class="accent">NATION</span></h1><p class="hero-subtitle">Analysis &middot; Scouting &middot; Live Data</p><p class="hero-desc">Your premium source for professional basketball analysis, prospect scouting, and real-time league dynamics.</p><div class="hero-actions"><a href="#articles" class="btn-primary"><i class="fas fa-newspaper"></i> Read Analysis</a><a href="#stats" class="btn-secondary"><i class="fas fa-chart-bar"></i> View Stats</a></div><div class="hero-stats-row"><div><div class="hero-stat-num" id="heroStatArticles">0</div><div class="hero-stat-label">Articles Published</div></div><div><div class="hero-stat-num" id="heroStatPlayers">0</div><div class="hero-stat-label">Players Tracked</div></div><div><div class="hero-stat-num" id="heroStatTeams">30</div><div class="hero-stat-label">Teams</div></div><div><div class="hero-stat-num" id="heroStatReaders">0</div><div class="hero-stat-label">Monthly Readers</div></div></div></div></section>
+  <div class="ad-slot ad-slot-header container"></div>
+  <section class="live-section container fade-in" id="live"><div class="section-label">Real-Time</div><h2 class="section-title">Live Scores</h2><p class="section-desc">Follow every game as it happens. Scores update automatically during live broadcasts.</p><div class="api-status" id="liveApiStatus"><div class="dot loading"></div> Connecting to TheSportsDB...<button class="refresh-btn" onclick="fetchApiData()" title="Refresh"><i class="fas fa-sync-alt"></i></button></div><div class="live-scroll" id="liveScoresContainer"></div></section>
+  <section class="predictions-section container fade-in" id="predictions"><div class="section-label">Data-Driven</div><h2 class="section-title">Match Predictions</h2><p class="section-desc">Win probability estimates based on advanced metrics and recent form.</p><div class="predictions-grid" id="predictionsContainer"></div></section>
+  <section class="standings-section container fade-in" id="standings"><div class="section-label">2024-25 Season</div><h2 class="section-title">Conference Standings</h2><p class="section-desc">Current conference rankings with win-loss records and streak information.</p><div class="api-status" id="standingsApiStatus"><div class="dot loading"></div> Loading standings...<button class="refresh-btn" onclick="fetchApiData()" title="Refresh"><i class="fas fa-sync-alt"></i></button></div><div class="standings-tabs"><button class="standings-tab active" onclick="switchStandings('east',this)">Eastern Conference</button><button class="standings-tab" onclick="switchStandings('west',this)">Western Conference</button></div><div class="table-wrap"><table class="standings-table" id="standingsTable"></table></div></section>
+  <section class="stats-section container fade-in" id="stats"><div class="section-label">Performance</div><h2 class="section-title">Top Player Statistics</h2><p class="section-desc">Season leaders across key statistical categories.</p><div class="stats-grid" id="playerStatsContainer"></div></section>
+  <div class="ad-slot ad-slot-inline container"></div>
+  <section class="articles-section container fade-in" id="articles"><div class="section-label">Latest Coverage</div><h2 class="section-title">Articles and Analysis</h2><p class="section-desc">In-depth reporting on draft prospects, trade analysis, and league-wide trends.</p><div class="articles-layout"><div><div class="articles-grid" id="articlesGrid"></div></div><aside class="sidebar-sticky"><div class="ad-slot ad-slot-sidebar"></div><div class="sidebar-widget"><div class="sidebar-widget-title">Trending Now</div><div id="trendingSidebar"></div></div></aside></div></section>
+  <div class="article-detail container" id="articleDetail"></div>
+  <section class="schedule-section container fade-in" id="schedule"><div class="section-label">Upcoming</div><h2 class="section-title">Game Schedule</h2><p class="section-desc">Upcoming matchups across the league.</p><div class="api-status" id="scheduleApiStatus"><div class="dot loading"></div> Loading schedule...<button class="refresh-btn" onclick="fetchApiData()" title="Refresh"><i class="fas fa-sync-alt"></i></button></div><div class="schedule-grid" id="scheduleContainer"></div></section>
+</main>
+<footer class="footer" role="contentinfo"><div class="container"><div class="footer-grid"><div><div class="nav-logo" style="margin-bottom:4px"><div class="dunk-logo" style="width:22px;height:22px"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" stroke="#ff6b2b" stroke-width="4"/><path d="M35 55L50 25L65 55" stroke="#ff6b2b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="42" y1="45" x2="58" y2="45" stroke="#ff6b2b" stroke-width="3" stroke-linecap="round"/></svg></div> DUNK NATION</div><p class="footer-brand-desc">Your premium source for professional basketball analysis, prospect scouting, and real-time league dynamics.</p></div><div><div class="footer-heading">Coverage</div><ul class="footer-links"><li><a href="#live">Live Scores</a></li><li><a href="#predictions">Predictions</a></li><li><a href="#standings">Standings</a></li><li><a href="#stats">Player Stats</a></li></ul></div><div><div class="footer-heading">Content</div><ul class="footer-links"><li><a href="#articles">All Articles</a></li><li><a href="#schedule">Schedule</a></li><li><a href="#">Draft Prospects</a></li><li><a href="#">Trade Tracker</a></li></ul></div><div><div class="footer-heading">Legal</div><ul class="footer-links"><li><a href="#" onclick="openModal('aboutModal');return false">About Us</a></li><li><a href="#" onclick="openModal('privacyModal');return false">Privacy Policy</a></li><li><a href="#" onclick="openModal('disclaimerModal');return false">Disclaimer</a></li><li><a href="#">Contact</a></li></ul></div></div><div class="footer-bottom"><span>2025 DUNK NATION. All rights reserved.</span><span>Built for speed. Optimized for fans.</span></div></div></footer>
+<script>
+/* ===== ERROR HANDLER ===== */
+window.onerror=function(m,u,l){console.error('JS:',m,'L:',l);return false};
+window.addEventListener('unhandledrejection',function(e){console.error('Promise:',e.reason)});
+function safeRun(fn){try{return fn()}catch(e){console.error('safeRun:',e);return null}}
+
+/* ===== FALLBACK DATA ===== */
+var TEAMS=[
+  {id:1,name:"Celtics",abbr:"BOS",city:"Boston",color:"#007A33",wins:52,losses:14,pct:.788,streak:"W5"},
+  {id:2,name:"Knicks",abbr:"NYK",city:"New York",color:"#006BB6",wins:46,losses:20,pct:.697,streak:"W3"},
+  {id:3,name:"Bucks",abbr:"MIL",city:"Milwaukee",color:"#00471B",wins:42,losses:24,pct:.636,streak:"L1"},
+  {id:4,name:"Cavaliers",abbr:"CLE",city:"Cleveland",color:"#860038",wins:48,losses:18,pct:.727,streak:"W7"},
+  {id:5,name:"Magic",abbr:"ORL",city:"Orlando",color:"#0077C0",wins:40,losses:26,pct:.606,streak:"W2"},
+  {id:6,name:"Pacers",abbr:"IND",city:"Indiana",color:"#002D62",wins:38,losses:28,pct:.576,streak:"L2"},
+  {id:7,name:"Heat",abbr:"MIA",city:"Miami",color:"#98002E",wins:36,losses:30,pct:.545,streak:"W1"},
+  {id:8,name:"76ers",abbr:"PHI",city:"Philadelphia",color:"#006BB6",wins:32,losses:34,pct:.485,streak:"L3"},
+  {id:9,name:"Bulls",abbr:"CHI",city:"Chicago",color:"#CE1141",wins:28,losses:38,pct:.424,streak:"L1"},
+  {id:10,name:"Hawks",abbr:"ATL",city:"Atlanta",color:"#E03A3E",wins:30,losses:36,pct:.455,streak:"W1"},
+  {id:11,name:"Nuggets",abbr:"DEN",city:"Denver",color:"#0E2240",wins:50,losses:16,pct:.758,streak:"W4"},
+  {id:12,name:"Thunder",abbr:"OKC",city:"Oklahoma City",color:"#007AC1",wins:54,losses:12,pct:.818,streak:"W8"},
+  {id:13,name:"Timberwolves",abbr:"MIN",city:"Minnesota",color:"#0C2340",wins:44,losses:22,pct:.667,streak:"L2"},
+  {id:14,name:"Clippers",abbr:"LAC",city:"Los Angeles",color:"#C8102E",wins:38,losses:28,pct:.576,streak:"W2"},
+  {id:15,name:"Lakers",abbr:"LAL",city:"Los Angeles",color:"#552583",wins:36,losses:30,pct:.545,streak:"L1"},
+  {id:16,name:"Suns",abbr:"PHX",city:"Phoenix",color:"#1D1160",wins:34,losses:32,pct:.515,streak:"W1"},
+  {id:17,name:"Mavericks",abbr:"DAL",city:"Dallas",color:"#00538C",wins:42,losses:24,pct:.636,streak:"W3"},
+  {id:18,name:"Grizzlies",abbr:"MEM",city:"Memphis",color:"#5D76A9",wins:38,losses:28,pct:.576,streak:"L1"},
+  {id:19,name:"Kings",abbr:"SAC",city:"Sacramento",color:"#5A2D81",wins:32,losses:34,pct:.485,streak:"W2"},
+  {id:20,name:"Warriors",abbr:"GSW",city:"Golden State",color:"#1D428A",wins:30,losses:36,pct:.455,streak:"L4"}
+];
+var EAST_IDS=[1,2,3,4,5,6,7,8,9,10],WEST_IDS=[11,12,13,14,15,16,17,18,19,20];
+var EAST_TEAMS=TEAMS.filter(function(t){return EAST_IDS.indexOf(t.id)!==-1}).sort(function(a,b){return b.pct-a.pct});
+var WEST_TEAMS=TEAMS.filter(function(t){return WEST_IDS.indexOf(t.id)!==-1}).sort(function(a,b){return b.pct-a.pct});
+
+var DEFAULT_LIVE=[
+  {home:{abbr:"BOS",city:"Boston",color:"#007A33",score:98},away:{abbr:"CLE",city:"Cleveland",color:"#860038",score:102},quarter:"Q4",time:"3:24",status:"live"},
+  {home:{abbr:"LAL",city:"Los Angeles",color:"#552583",score:84},away:{abbr:"PHX",city:"Phoenix",color:"#1D1160",score:79},quarter:"Q3",time:"7:11",status:"live"},
+  {home:{abbr:"DEN",city:"Denver",color:"#0E2240",score:112},away:{abbr:"DAL",city:"Dallas",color:"#00538C",score:108},quarter:"Q2",time:"2:45",status:"live"},
+  {home:{abbr:"NYK",city:"New York",color:"#006BB6",score:96},away:{abbr:"MIL",city:"Milwaukee",color:"#00471B",score:94},quarter:"Q4",time:"0:00",status:"final"},
+  {home:{abbr:"OKC",city:"Oklahoma City",color:"#007AC1",score:0},away:{abbr:"MIN",city:"Minnesota",color:"#0C2340",score:0},quarter:"",time:"7:30 PM",status:"upcoming"},
+  {home:{abbr:"MIA",city:"Miami",color:"#98002E",score:88},away:{abbr:"IND",city:"Indiana",color:"#002D62",score:91},quarter:"Q4",time:"0:00",status:"final"}
+];
+
+var PREDICTIONS=[
+  {home:{abbr:"OKC",name:"Thunder",color:"#007AC1"},away:{abbr:"DEN",name:"Nuggets",color:"#0E2240"},homeProb:62,date:"Jan 28, 7:30 PM ET",venue:"Paycom Center"},
+  {home:{abbr:"BOS",name:"Celtics",color:"#007A33"},away:{abbr:"NYK",name:"Knicks",color:"#006BB6"},homeProb:55,date:"Jan 28, 8:00 PM ET",venue:"TD Garden"},
+  {home:{abbr:"LAL",name:"Lakers",color:"#552583"},away:{abbr:"GSW",name:"Warriors",color:"#1D428A"},homeProb:48,date:"Jan 29, 10:00 PM ET",venue:"Crypto.com Arena"},
+  {home:{abbr:"CLE",name:"Cavaliers",color:"#860038"},away:{abbr:"MIL",name:"Bucks",color:"#00471B"},homeProb:58,date:"Jan 29, 7:00 PM ET",venue:"Rocket Mortgage FieldHouse"}
+];
+
+var PLAYER_STATS=[
+  {name:"Shai Gilgeous-Alexander",team:"OKC",color:"#007AC1",ppg:31.4,rpg:5.5,apg:6.2,spg:2.1,bpg:0.9},
+  {name:"Giannis Antetokounmpo",team:"MIL",color:"#00471B",ppg:30.8,rpg:11.4,apg:5.8,spg:1.2,bpg:1.4},
+  {name:"Luka Doncic",team:"DAL",color:"#00538C",ppg:28.6,rpg:8.3,apg:9.1,spg:1.4,bpg:0.5},
+  {name:"Jayson Tatum",team:"BOS",color:"#007A33",ppg:27.1,rpg:8.5,apg:5.6,spg:1.1,bpg:0.7},
+  {name:"Nikola Jokic",team:"DEN",color:"#0E2240",ppg:26.4,rpg:12.3,apg:9.8,spg:1.3,bpg:0.8},
+  {name:"Victor Wembanyama",team:"SAS",color:"#C4CED4",ppg:24.5,rpg:11.2,apg:5.8,spg:1.3,bpg:3.6},
+  {name:"Donovan Mitchell",team:"CLE",color:"#860038",ppg:23.8,rpg:4.3,apg:4.7,spg:1.6,bpg:0.4},
+  {name:"Anthony Edwards",team:"MIN",color:"#0C2340",ppg:25.2,rpg:5.8,apg:5.1,spg:1.3,bpg:0.6}
+];
+
+var DEFAULT_ARTICLES=[
+  {id:1,title:"Cooper Flagg: The Most Anticipated Prospect Since LeBron",excerpt:"A deep dive into the Duke freshman generational talent.",body:"<p>Cooper Flagg has been on the radar of NBA scouts since his sophomore year of high school, but his performance at Duke has elevated his status to unprecedented heights.</p><h2>Defensive Dominance</h2><p>Flagg's defensive impact is immediately apparent. He averages 4.2 blocks per game while rotating seamlessly in Duke's switch-heavy scheme.</p><blockquote>He is the best defensive prospect I have evaluated in the last decade. — NBA Scout</blockquote><h2>Offensive Evolution</h2><p>What separates Flagg from previous defensive specialists is his rapidly developing offensive game. He is shooting 38% from three-point range on significant volume.</p><p>The question is not whether Flagg will be the No. 1 pick — it is which franchise will be fortunate enough to land him.</p>",category:"Draft Analysis",author:"Marcus Chen",date:"Jan 27, 2025",image:"https://picsum.photos/seed/flagg-draft/800/500.jpg"},
+  {id:2,title:"Trade Deadline Rumors: Three Teams Positioned for Blockbuster Moves",excerpt:"With the February deadline approaching, several franchises are loading up.",body:"<p>The NBA trade deadline has become the league's most dramatic spectacle, and 2025 is shaping up to be no different.</p><h2>The Buyers</h2><p>Teams like the Lakers, Suns, and Heat are aggressively pursuing upgrades.</p><h2>Unexpected Sellers</h2><p>The Bulls have made Zach LaVine available, and the Hawks are fielding calls on Dejounte Murray.</p><blockquote>This is the most active I have seen the trade market in five years. — Front Office Executive</blockquote><p>Expect the final week before the deadline to produce at least two franchise-altering transactions.</p>",category:"Trade Analysis",author:"David Park",date:"Jan 26, 2025",image:"https://picsum.photos/seed/trade-nba/800/500.jpg"},
+  {id:3,title:"Wembanyama Defensive Revolution: Rewriting the Center Position",excerpt:"How the Spurs sophomore is changing what teams expect from their rim protector.",body:"<p>Victor Wembanyama is not just playing center — he is redefining the position entirely. His 3.6 blocks per game lead the league by a wide margin.</p><h2>Beyond Block Numbers</h2><p>Wembanyama's presence alters opposing game plans before the ball is even inbounded. The Spurs' defensive rating improves by 14.3 points per 100 possessions when he is on the floor.</p><h2>Switchability</h2><p>At 7'4\", Wembanyama can switch onto point guards and stay within arm's length. This skill is unprecedented at his size.</p><p>The question is not whether Wembanyama will win Defensive Player of the Year — it is whether the award will ever mean the same thing again.</p>",category:"Player Analysis",author:"Sarah Williams",date:"Jan 25, 2025",image:"https://picsum.photos/seed/wemby-def/800/500.jpg"},
+  {id:4,title:"Ace Bailey Scouting Report: High Ceiling, High Risk",excerpt:"Rutgers' electric freshman has lottery talent, but consistency concerns.",body:"<p>Ace Bailey entered the season as a potential top-three pick. At 6'10\" with fluid athleticism and a smooth shooting stroke.</p><h2>The Peaks</h2><p>When Bailey is engaged, he is unguardable. His 42-point performance against Purdue was one of the most impressive individual outings of the college season.</p><h2>The Valleys</h2><p>The concern is consistency. Bailey has had multiple games where he has disappeared for long stretches.</p><blockquote>The talent is obvious. The question is whether he will bring it every night at the next level. — College Scout</blockquote>",category:"Draft Analysis",author:"Marcus Chen",date:"Jan 24, 2025",image:"https://picsum.photos/seed/bailey-rutgers/800/500.jpg"},
+  {id:5,title:"Inside the Thunder Analytical Machine: Building a Dynasty with Data",excerpt:"Oklahoma City front office has constructed a contender through unconventional methods.",body:"<p>The Oklahoma City Thunder sit atop the Western Conference with a 54-12 record, ignoring conventional NBA wisdom.</p><h2>The Draft Strategy</h2><p>Since 2021, the Thunder have accumulated more draft picks than any franchise in history. Every pick is filtered through a proprietary statistical model.</p><h2>Player Development</h2><p>OKC's development staff has transformed raw prospects into polished contributors. Jalen Williams went from a mid-first round question mark to an All-Star candidate.</p><p>The Thunder are not just winning — they are proving that data-driven decision making can build sustainable success in the NBA.</p>",category:"Front Office",author:"David Park",date:"Jan 23, 2025",image:"https://picsum.photos/seed/thunder-analytics/800/500.jpg"},
+  {id:6,title:"Top 5 International Prospects to Watch in the 2025 Draft",excerpt:"From France to Australia, the global pipeline produces elite NBA talent.",body:"<p>The international pipeline has never been more productive, and the 2025 draft class reflects that trend.</p><h2>Noah Penda (France)</h2><p>The 6'8\" wing has drawn comparisons to Mikal Bridges with his 3-and-D profile. He is shooting 41% from three in the French Pro A league.</p><h2>Rocco Zikarsky (Australia)</h2><p>At 7'3\", Zikarsky is a traditional rim protector with surprising mobility. His defensive floor alone could make him a lottery pick.</p><p>The global game continues to evolve, and these prospects represent the next wave of international impact players.</p>",category:"Draft Analysis",author:"Sarah Williams",date:"Jan 22, 2025",image:"https://picsum.photos/seed/intl-draft/800/500.jpg"}
+];
+
+var DEFAULT_SCHEDULE=[
+  {home:"OKC",away:"MIN",day:"28",month:"Jan",time:"7:30 PM ET",venue:"Paycom Center"},
+  {home:"BOS",away:"NYK",day:"28",month:"Jan",time:"8:00 PM ET",venue:"TD Garden"},
+  {home:"LAL",away:"GSW",day:"29",month:"Jan",time:"10:00 PM ET",venue:"Crypto.com Arena"},
+  {home:"CLE",away:"MIL",day:"29",month:"Jan",time:"7:00 PM ET",venue:"Rocket Mortgage FieldHouse"},
+  {home:"DEN",away:"PHX",day:"30",month:"Jan",time:"9:00 PM ET",venue:"Ball Arena"},
+  {home:"MIA",away:"ATL",day:"30",month:"Jan",time:"7:30 PM ET",venue:"Kaseya Center"},
+  {home:"SAC",away:"DAL",day:"31",month:"Jan",time:"8:30 PM ET",venue:"Golden 1 Center"},
+  {home:"IND",away:"CHI",day:"31",month:"Jan",time:"8:00 PM ET",venue:"Gainbridge FieldHouse"}
+];
+
+/* ===== APP STATE ===== */
+var APP={
+  currentStandings:"east",
+  isLoggedIn:localStorage.getItem("adminAuth")==="1",
+  adminTab:"overview",
+  articles:[],
+  liveScores:JSON.parse(JSON.stringify(DEFAULT_LIVE)),
+  schedule:JSON.parse(JSON.stringify(DEFAULT_SCHEDULE)),
+  apiConnected:false,
+  apiRetryCount:0,
+  lastFetchTime:0,
+  settings:{
+    adsenseId:localStorage.getItem("adsenseId")||"",
+    monetagId:localStorage.getItem("monetagId")||"",
+    ga4Id:localStorage.getItem("ga4Id")||"",
+    sheetsApiKey:localStorage.getItem("sheetsApiKey")||"",
+    sportsApiKey:localStorage.getItem("sportsApiKey")||""
+  }
+};
+
+/* ===== UTILITIES ===== */
+function getTeam(abbr){return TEAMS.find(function(t){return t.abbr===abbr})||{name:abbr,city:abbr,color:"#555"}}
+
+function showToast(msg,type){
+  safeRun(function(){
+    var c=document.getElementById("toastContainer");if(!c)return;
+    var t=document.createElement("div");t.className="toast "+(type||"info");
+    var ic={success:"fa-check-circle",error:"fa-exclamation-circle",info:"fa-info-circle"};
+    var co={success:"var(--success)",error:"var(--danger)",info:"var(--accent)"};
+    t.innerHTML='<i class="fas '+(ic[type]||ic.info)+'" style="color:'+(co[type]||co.info)+'"></i> '+msg;
+    c.appendChild(t);
+    setTimeout(function(){if(t.parentNode){t.style.opacity="0";t.style.transform="translateX(40px)";t.style.transition="all .3s ease"}},3000);
+    setTimeout(function(){if(t.parentNode)t.remove()},3400);
+  });
+}
+
+function openModal(id){safeRun(function(){document.getElementById(id).classList.add("open")})}
+function closeModal(id){safeRun(function(){document.getElementById(id).classList.remove("open")})}
+function openSearch(){safeRun(function(){document.getElementById("searchOverlay").classList.add("open");setTimeout(function(){var i=document.getElementById("searchInput");if(i)i.focus()},100)})}
+function closeSearch(){safeRun(function(){document.getElementById("searchOverlay").classList.remove("open");var i=document.getElementById("searchInput");if(i)i.value="";var r=document.getElementById("searchResults");if(r)r.innerHTML=""})}
+function openMobileNav(){safeRun(function(){document.getElementById("mobileNav").classList.add("open")})}
+function closeMobileNav(){safeRun(function(){document.getElementById("mobileNav").classList.remove("open")})}
+
+function animateCounter(el,target){if(!el)return;try{var c=0,s=Math.max(1,Math.ceil(target/60));var iv=setInterval(function(){c+=s;if(c>=target){c=target;clearInterval(iv)}el.textContent=c.toLocaleString()},20)}catch(e){el.textContent=target.toLocaleString()}}
+
+function setApiStatus(elId,status,text){
+  safeRun(function(){
+    var el=document.getElementById(elId);if(!el)return;
+    var dot=status==="online"?"online":status==="offline"?"offline":"loading";
+    var btn=status==="online"?'<button class="refresh-btn" onclick="fetchApiData()" title="Refresh data"><i class="fas fa-sync-alt"></i></button>':'<button class="refresh-btn" onclick="fetchApiData()" title="Retry"><i class="fas fa-sync-alt fa-spin"></i></button>';
+    el.innerHTML='<div class="dot '+dot+'"></div> '+text+btn;
+  });
+}
+
+/* ===== ARTICLES ===== */
+function loadArticles(){try{var s=localStorage.getItem("dunkNationArticles");if(s){var p=JSON.parse(s);if(Array.isArray(p)&&p.length>0){APP.articles=p;return}}}catch(e){}APP.articles=JSON.parse(JSON.stringify(DEFAULT_ARTICLES));saveArticles()}
+function saveArticles(){try{localStorage.setItem("dunkNationArticles",JSON.stringify(APP.articles))}catch(e){}}
+
+/* ===== THE SPORTS DB API ===== */
+var API_CACHE_KEY="dunkNation_api_v3";
+var CACHE_TTL=30*60*1000; // 30 menit
+
+function getCache(){try{var c=localStorage.getItem(API_CACHE_KEY);if(c){var d=JSON.parse(c);if(Date.now()-d.ts<CACHE_TTL&&d.data)return d}}catch(e){}return null}
+function setCache(data){try{localStorage.setItem(API_CACHE_KEY,JSON.stringify({ts:Date.now(),data:data}))}catch(e){}}
+function clearCache(){try{localStorage.removeItem(API_CACHE_KEY);showToast("API cache cleared","info")}catch(e){}}
+
+// Fetch dengan timeout dan retry
+function fetchWithTimeout(url,timeout){
+  timeout=timeout||8000;
+  return Promise.race([
+    fetch(url),
+    new Promise(function(_,reject){setTimeout(function(){reject(new Error("Timeout"))},timeout)})
+  ]);
+}
+
+function fetchApiData(){
+  var now=Date.now();
+  if(now-APP.lastFetchTime<10000){console.log("Throttled: fetch within 10s");return}
+  APP.lastFetchTime=now;
+
+  // Cek cache dulu
+  var cache=getCache();
+  if(cache){
+    console.log("Using cached API data");
+    applyApiData(cache.data);
+    APP.apiConnected=true;
+    setApiStatus("liveApiStatus","online","Data loaded (cached) — "+new Date(cache.ts).toLocaleTimeString());
+    setApiStatus("standingsApiStatus","online","Standings loaded (cached)");
+    setApiStatus("scheduleApiStatus","online","Schedule loaded (cached)");
+    setTimeout(function(){["liveApiStatus","standingsApiStatus","scheduleApiStatus"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none"})},4000);
+    return;
+  }
+
+  console.log("Fetching from TheSportsDB... (attempt "+(APP.apiRetryCount+1)+")");
+  setApiStatus("liveApiStatus","loading","Connecting to TheSportsDB...");
+  setApiStatus("standingsApiStatus","loading","Loading standings...");
+  setApiStatus("scheduleApiStatus","loading","Loading schedule...");
+
+  var key=APP.settings.sportsApiKey||"3";
+  var base="https://www.thesportsdb.com/api/v1/json/"+key;
+  var leagueId="4387";
+  var season="2024-2025";
+
+  Promise.all([
+    fetchWithTimeout(base+"/lookuptable.php?l="+leagueId+"&s="+season,8000).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).catch(function(e){console.warn("Standings fetch failed:",e);return null}),
+    fetchWithTimeout(base+"/eventsnextleague.php?id="+leagueId,8000).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).catch(function(e){console.warn("Upcoming fetch failed:",e);return null}),
+    fetchWithTimeout(base+"/eventspastleague.php?id="+leagueId,8000).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).catch(function(e){console.warn("Past events fetch failed:",e);return null})
+  ])
+  .then(function(results){
+    var standingsRaw=results[0]||{};
+    var upcomingRaw=results[1]||{};
+    var pastRaw=results[2]||{};
+
+    var hasData=false;
+    var apiData={standings:[],upcoming:[],past:[]};
+
+    // Proses standings
+    if(standingsRaw&&standingsRaw.table&&standingsRaw.table.length>0){
+      apiData.standings=standingsRaw.table;
+      hasData=true;
+    }
+
+    // Proses upcoming events
+    if(upcomingRaw&&upcomingRaw.events&&upcomingRaw.events.length>0){
+      apiData.upcoming=upcomingRaw.events;
+      hasData=true;
+    }
+
+    // Proses past events
+    if(pastRaw&&pastRaw.results&&pastRaw.results.length>0){
+      apiData.past=pastRaw.results;
+      hasData=true;
+    }
+
+    if(hasData){
+      setCache(apiData);
+      applyApiData(apiData);
+      APP.apiConnected=true;
+      APP.apiRetryCount=0;
+
+      setApiStatus("liveApiStatus","online","Connected — "+new Date().toLocaleTimeString());
+      setApiStatus("standingsApiStatus","online","Standings loaded — "+apiData.standings.length+" teams");
+      setApiStatus("scheduleApiStatus","online","Schedule loaded — "+apiData.upcoming.length+" games");
+      showToast("Live data synced from TheSportsDB","success");
+
+      setTimeout(function(){["liveApiStatus","standingsApiStatus","scheduleApiStatus"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none"})},5000);
+    }else{
+      throw new Error("No data received from API");
+    }
+  })
+  .catch(function(err){
+    console.error("API Error:",err.message);
+    APP.apiRetryCount++;
+    APP.apiConnected=false;
+
+    var retryMsg=APP.apiRetryCount<3?" (retry "+APP.apiRetryCount+"/3 in 5s)":"";
+    setApiStatus("liveApiStatus","offline","Offline — using fallback data"+retryMsg);
+    setApiStatus("standingsApiStatus","offline","Using fallback data"+retryMsg);
+    setApiStatus("scheduleApiStatus","offline","Using fallback data"+retryMsg);
+
+    // Gunakan fallback
+    APP.liveScores=JSON.parse(JSON.stringify(DEFAULT_LIVE));
+    APP.schedule=JSON.parse(JSON.stringify(DEFAULT_SCHEDULE));
+    renderLiveScores();
+    renderStandings(APP.currentStandings);
+    renderSchedule();
+
+    // Auto-retry sampai 3x
+    if(APP.apiRetryCount<3){
+      setTimeout(function(){fetchApiData()},5000);
+    }else{
+      showToast("API unavailable after 3 attempts. Using fallback data.","error");
+      setTimeout(function(){["liveApiStatus","standingsApiStatus","scheduleApiStatus"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none"})},5000);
+    }
+  });
+}
+
+function applyApiData(data){
+  safeRun(function(){
+    // Standings
+    if(data.standings&&data.standings.length>0){
+      var newTeams=data.standings.map(function(t,i){
+        var w=parseInt(t.intWin)||0,l=parseInt(t.intLoss)||0,total=w+l;
+        var pct=total>0?w/total:0;
+        var streak=processStreak(t.strForm);
+        return{
+          id:parseInt(t.idTeam)||i+1,name:t.strTeam||"Unknown",
+          abbr:t.strTeamShort||(t.strTeam?t.strTeam.substring(0,3).toUpperCase():"???"),
+          city:t.strTeam?t.strTeam.replace(/\s+(Celtics|Knicks|Bucks|Cavaliers|Magic|Pacers|Heat|76ers|Bulls|Hawks|Nuggets|Thunder|Timberwolves|Clippers|Lakers|Suns|Mavericks|Grizzlies|Kings|Warriors|Spurs|Rockets|Pelicans|Trail Blazers|Jazz|Hornets|Wizards|Pistons|Raptors|Net)$/i,""):"",
+          color:t.strColour||"#555",badge:t.strBadge||"",
+          wins:w,losses:l,pct:pct,streak:streak,
+          conference:i<15?"east":"west"
+        };
+      });
+      if(newTeams.length>=20){
+        TEAMS.length=0;Array.prototype.push.apply(TEAMS,newTeams);
+        EAST_TEAMS=TEAMS.filter(function(t){return t.conference==="east"}).sort(function(a,b){return b.pct-a.pct});
+        WEST_TEAMS=TEAMS.filter(function(t){return t.conference==="west"}).sort(function(a,b){return b.pct-a.pct});
+        console.log("Standings updated: "+TEAMS.length+" teams from API");
+      }
+    }
+
+    // Live scores dari past events
+    if(data.past&&data.past.length>0){
+      var liveScores=data.past.slice(0,8).map(function(ev){
+        if(!ev.strHomeTeam||!ev.strAwayTeam)return null;
+        var hs=parseInt(ev.intHomeScore)||0,as=parseInt(ev.intAwayScore)||0;
+        return{
+          home:{abbr:ev.strHomeTeam.substring(0,3).toUpperCase(),city:ev.strHomeTeam,color:getApiTeamColor(ev.strHomeTeam),badge:ev.strHomeTeamBadge||"",score:hs},
+          away:{abbr:ev.strAwayTeam.substring(0,3).toUpperCase(),city:ev.strAwayTeam,color:getApiTeamColor(ev.strAwayTeam),badge:ev.strAwayTeamBadge||"",score:as},
+          quarter:"Final",time:ev.dateEvent||"",status:"final"
+        };
+      }).filter(Boolean);
+      if(liveScores.length>0){APP.liveScores=liveScores;console.log("Live scores updated: "+liveScores.length+" games")}
+    }
+
+    // Schedule dari upcoming events
+    if(data.upcoming&&data.upcoming.length>0){
+      var schedule=data.upcoming.slice(0,10).map(function(ev){
+        if(!ev.strHomeTeam||!ev.strAwayTeam||!ev.dateEvent)return null;
+        var dp=ev.dateEvent.split("-"),day=parseInt(dp[2])||"",month="";
+        var mn=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        month=mn[parseInt(dp[1])]||"";
+        var time=ev.strTime?formatApiTime(ev.strTime):"TBD";
+        return{home:ev.strHomeTeam.substring(0,3).toUpperCase(),away:ev.strAwayTeam.substring(0,3).toUpperCase(),day:String(day),month:month,time:time+" ET",venue:ev.strVenue||"TBD",homeBadge:ev.strHomeTeamBadge||"",awayBadge:ev.strAwayTeamBadge||""};
+      }).filter(Boolean);
+      if(schedule.length>0){APP.schedule=schedule;console.log("Schedule updated: "+schedule.length+" games")}
+    }
+
+    renderLiveScores();
+    renderStandings(APP.currentStandings);
+    renderSchedule();
+  });
+}
+
+function processStreak(form){
+  if(!form)return"";
+  var w=0,l=0;
+  for(var i=0;i<form.length;i++){if(form[i]==="W")w++;else if(form[i]==="L")l++;else break}
+  if(w>0)return"W"+w;if(l>0)return"L"+l;return"";
+}
+
+function formatApiTime(t){
+  if(!t)return"TBD";var p=t.split(":"),h=parseInt(p[0])||0,m=p[1]||"00";
+  var per=h>=12?"PM":"AM";h=h%12;if(h===0)h=12;return h+":"+m+" "+per;
+}
+
+function getApiTeamColor(name){
+  var t=TEAMS.find(function(tm){return tm.name===name||(tm.city+" "+tm.name)===name});
+  return t?t.color:"#555";
+}
+
+/* ===== RENDER: LIVE SCORES ===== */
+function renderLiveScores(){
+  safeRun(function(){
+    var c=document.getElementById("liveScoresContainer");if(!c)return;
+    if(!APP.liveScores||!APP.liveScores.length){c.innerHTML='<div style="color:var(--muted);padding:20px">No live scores available</div>';return}
+    c.innerHTML=APP.liveScores.map(function(g){
+      var sc=g.status==="live"?"live":g.status==="final"?"final":"upcoming";
+      var sl=g.status==="live"?"LIVE":g.status==="final"?"FINAL":"UPCOMING";
+      var ti=g.status==="live"?g.quarter+" "+g.time:g.time;
+      var hw=g.status!=="upcoming"&&g.home.score>g.away.score?"winning":"";
+      var aw=g.status!=="upcoming"&&g.away.score>g.home.score?"winning":"";
+      var hs=g.status==="upcoming"?"-":g.home.score,as=g.status==="upcoming"?"-":g.away.score;
+      return '<article class="live-card '+(sc==="final"?"is-final":"")+'"><div class="live-card-header"><span class="live-status '+sc+'">'+sl+'</span><span class="live-time">'+ti+'</span></div><div class="live-team"><div class="live-team-info"><div class="live-team-abbr" style="background:'+g.home.color+'">'+g.home.abbr+'</div><div><div class="live-team-name">'+g.home.city+'</div><div class="live-team-city">Home</div></div></div><div class="live-team-score '+hw+'">'+hs+'</div></div><div class="live-divider"></div><div class="live-team"><div class="live-team-info"><div class="live-team-abbr" style="background:'+g.away.color+'">'+g.away.abbr+'</div><div><div class="live-team-name">'+g.away.city+'</div><div class="live-team-city">Away</div></div></div><div class="live-team-score '+aw+'">'+as+'</div></div></article>';
+    }).join("");
+  });
+}
+
+function simulateLiveUpdates(){safeRun(function(){APP.liveScores.forEach(function(g){if(g.status==="live"){if(Math.random()>.6){var t=Math.random()>.5?g.home:g.away;t.score+=Math.floor(Math.random()*3)+1}var mins=Math.max(0,parseInt(g.time.split(":")[0])-(Math.random()>.7?1:0));var secs=("0"+Math.floor(Math.random()*60)).slice(-2);g.time=mins+":"+secs}});renderLiveScores()})}
+
+/* ===== RENDER: PREDICTIONS ===== */
+function renderPredictions(){
+  safeRun(function(){
+    var c=document.getElementById("predictionsContainer");if(!c)return;
+    c.innerHTML=PREDICTIONS.map(function(p){return '<article class="predict-card"><div class="predict-matchup"><div class="predict-team"><div class="predict-team-abbr" style="background:'+p.home.color+'">'+p.home.abbr+'</div><div class="predict-team-name">'+p.home.name+'</div></div><div class="predict-vs">VS</div><div class="predict-team"><div class="predict-team-abbr" style="background:'+p.away.color+'">'+p.away.abbr+'</div><div class="predict-team-name">'+p.away.name+'</div></div></div><div class="predict-bar-container"><div class="predict-bar" style="width:0%;background:'+p.home.color+'" data-width="'+p.homeProb+'%">'+p.homeProb+'%</div></div><div class="predict-meta"><span>'+p.date+'</span><span>'+p.venue+'</span></div></article>'}).join("");
+    setTimeout(function(){c.querySelectorAll(".predict-bar").forEach(function(b){b.style.width=b.dataset.width})},100);
+  });
+}
+
+/* ===== RENDER: STANDINGS ===== */
+function renderStandings(conf){
+  safeRun(function(){
+    var teams=conf==="east"?EAST_TEAMS:WEST_TEAMS;
+    var t=document.getElementById("standingsTable");if(!t)return;
+    if(!teams||!teams.length){t.innerHTML="<tbody><tr><td colspan='7' style='text-align:center;padding:40px;color:var(--muted)'>No data</td></tr></tbody>";return}
+    t.innerHTML="<thead><tr><th>#</th><th>Team</th><th>W</th><th>L</th><th>PCT</th><th>GB</th><th>Streak</th></tr></thead><tbody>"+teams.map(function(tm,i){
+      var gb=i===0?"-":((teams[0].wins-tm.wins)+(tm.losses-teams[0].losses)/2).toFixed(1);
+      var isW=tm.streak.charAt(0)==="W";var pc=tm.pct>=.6?"var(--success)":tm.pct>=.5?"var(--gold)":"var(--danger)";
+      return '<tr><td style="font-family:var(--font-display);font-weight:600;color:var(--muted)">'+(i+1)+'</td><td><div class="team-cell"><div class="team-dot" style="background:'+tm.color+'"></div><span class="team-cell-name">'+(tm.city?tm.city+" ":"")+tm.name+'</span></div></td><td style="font-weight:600">'+tm.wins+'</td><td>'+tm.losses+'</td><td>'+tm.pct.toFixed(3)+'<div class="pct-bar"><div class="pct-bar-fill" style="width:'+(tm.pct*100)+'%;background:'+pc+'"></div></div></td><td style="color:var(--muted)">'+gb+'</td><td><span class="streak '+(isW?"streak-w":"streak-l")+'">'+tm.streak+'</span></td></tr>';
+    }).join("")+"</tbody>";
+  });
+}
+
+function switchStandings(conf,btn){APP.currentStandings=conf;safeRun(function(){document.querySelectorAll(".standings-tab").forEach(function(t){t.classList.remove("active")});if(btn)btn.classList.add("active")});renderStandings(conf)}
+
+/* ===== RENDER: PLAYER STATS ===== */
+function renderPlayerStats(){
+  safeRun(function(){
+    var c=document.getElementById("playerStatsContainer");if(!c)return;
+    var mxP=0,mxR=0,mxA=0,mxS=0,mxB=0;
+    PLAYER_STATS.forEach(function(p){if(p.ppg>mxP)mxP=p.ppg;if(p.rpg>mxR)mxR=p.rpg;if(p.apg>mxA)mxA=p.apg;if(p.spg>mxS)mxS=p.spg;if(p.bpg>mxB)mxB=p.bpg});
+    c.innerHTML=PLAYER_STATS.map(function(p,i){
+      var stats=[{l:"PPG",v:p.ppg,m:mxP,c:"var(--accent)"},{l:"RPG",v:p.rpg,m:mxR,c:"var(--gold)"},{l:"APG",v:p.apg,m:mxA,c:"var(--success)"},{l:"SPG",v:p.spg,m:mxS,c:"#a78bfa"},{l:"BPG",v:p.bpg,m:mxB,c:"#60a5fa"}];
+      var init=p.name.split(" ").map(function(n){return n.charAt(0)}).join("");
+      var bars=stats.map(function(s){return '<div class="stat-bar-row"><span class="stat-bar-label">'+s.l+'</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:0%;background:'+s.c+'" data-width="'+(s.v/s.m*100).toFixed(1)+'%"></div></div><span class="stat-bar-val">'+s.v+'</span></div>'}).join("");
+      var team=getTeam(p.team);
+      return '<article class="player-card"><div class="player-rank">'+(i+1)+'</div><div class="player-card-header"><div class="player-avatar" style="background:'+p.color+'">'+init+'</div><div><div class="player-name">'+p.name+'</div><div class="player-meta">'+team.city+" "+team.name+'</div></div></div><div class="stat-bars">'+bars+'</div></article>';
+    }).join("");
+    setTimeout(function(){c.querySelectorAll(".stat-bar-fill").forEach(function(b){b.style.width=b.dataset.width})},200);
+  });
+}
+
+/* ===== RENDER: ARTICLES ===== */
+function renderArticles(){
+  safeRun(function(){
+    var g=document.getElementById("articlesGrid");if(!g)return;
+    g.innerHTML=APP.articles.map(function(a){return '<article class="article-card" onclick="openArticle('+a.id+')"><div class="article-card-img-wrap"><img class="article-card-img" src="'+a.image+'" alt="'+a.title+'" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/fb'+a.id+'/800/500.jpg\'"><span class="article-card-cat">'+a.category+'</span></div><div class="article-card-body"><h3 class="article-card-title">'+a.title+'</h3><p class="article-card-excerpt">'+a.excerpt+'</p><div class="article-card-footer"><span class="article-card-author"><i class="fas fa-user-circle"></i> '+a.author+'</span><span>'+a.date+'</span></div></div></article>'}).join("");
+    var ts=document.getElementById("trendingSidebar");if(ts)ts.innerHTML=APP.articles.slice(0,5).map(function(a,i){return '<div class="trending-item" onclick="openArticle('+a.id+')"><div class="trending-num">'+String(i+1).padStart(2,"0")+'</div><div><div class="trending-title">'+a.title+'</div><div class="trending-cat">'+a.category+" - "+a.date+'</div></div></div>'}).join("");
+  });
+}
+
+function openArticle(id){safeRun(function(){var a=APP.articles.find(function(x){return x.id===id});if(!a)return;var m=document.getElementById("mainContent"),f=document.querySelector(".footer"),d=document.getElementById("articleDetail");if(!m||!f||!d)return;m.style.display="none";f.style.display="none";d.classList.add("open");var w=a.body.replace(/<[^>]*>/g,"").split(" ").length;var mn=Math.ceil(w/200);d.innerHTML='<button class="article-detail-back" onclick="showHomeView()"><i class="fas fa-arrow-left"></i> Back to All Articles</button><div class="article-detail-hero"><img src="'+a.image+'" alt="'+a.title+'" onerror="this.src=\'https://picsum.photos/seed/dt'+a.id+'/800/500.jpg\'"></div><span class="article-detail-cat">'+a.category+'</span><h1 class="article-detail-title">'+a.title+'</h1><div class="article-detail-meta"><span><i class="fas fa-user-circle"></i> '+a.author+'</span><span><i class="fas fa-calendar"></i> '+a.date+'</span><span><i class="fas fa-clock"></i> '+mn+' min read</span></div><div class="ad-slot ad-slot-inline" style="max-width:100%;margin:24px 0"></div><div class="article-detail-body">'+a.body+'</div>';window.scrollTo({top:0,behavior:"smooth"})})}
+function showHomeView(){safeRun(function(){var m=document.getElementById("mainContent"),f=document.querySelector(".footer"),d=document.getElementById("articleDetail");if(!m||!f||!d)return;m.style.display="";f.style.display="";d.classList.remove("open");d.innerHTML=""})}
+
+/* ===== RENDER: SCHEDULE ===== */
+function renderSchedule(){
+  safeRun(function(){
+    var c=document.getElementById("scheduleContainer");if(!c)return;
+    if(!APP.schedule||!APP.schedule.length){c.innerHTML='<div style="color:var(--muted);padding:20px">No schedule available</div>';return}
+    c.innerHTML=APP.schedule.map(function(s){var h=getTeam(s.home),aw=getTeam(s.away);return '<article class="schedule-card"><div class="schedule-date"><div class="schedule-date-day">'+s.day+'</div><div class="schedule-date-month">'+s.month+'</div></div><div class="schedule-divider"></div><div class="schedule-matchup"><div class="schedule-teams"><span style="color:'+(h.color||'var(--fg)')+';font-weight:600">'+s.home+'</span> <span style="color:var(--muted);margin:0 6px">vs</span> <span style="color:'+(aw.color||'var(--fg)')+';font-weight:600">'+s.away+'</span></div><div class="schedule-info">'+s.time+" - "+s.venue+'</div></div></article>'}).join("");
+  });
+}
+
+/* ===== SEARCH ===== */
+function buildSearchIndex(){var idx=[];try{APP.articles.forEach(function(a){idx.push({type:"Article",title:a.title,meta:a.category+" - "+a.author,id:a.id,action:"article"})});PLAYER_STATS.forEach(function(p){idx.push({type:"Player",title:p.name,meta:getTeam(p.team).city+" "+getTeam(p.team).name+" - "+p.ppg+" PPG",action:"player"})});TEAMS.forEach(function(t){idx.push({type:"Team",title:t.city+" "+t.name,meta:t.wins+"-"+t.losses+" - "+t.abbr,action:"team"})})}catch(e){}return idx}
+var searchIndex=[];
+
+/* ===== PARTICLES ===== */
+function createParticles(){safeRun(function(){var c=document.getElementById("heroParticles");if(!c)return;for(var i=0;i<20;i++){var p=document.createElement("div");p.className="particle";var sz=Math.random()*4+2,l=Math.random()*100,dl=Math.random()*8,dr=Math.random()*6+8;var cl=Math.random()>.5?"var(--accent)":"var(--gold)";p.style.cssText="width:"+sz+"px;height:"+sz+"px;left:"+l+"%;bottom:-10px;background:"+cl+";animation-delay:"+dl+"s;animation-duration:"+dr+"s;";c.appendChild(p)}})}
+
+/* ===== SCROLL & NAV ===== */
+function initScrollAnimations(){safeRun(function(){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");obs.unobserve(e.target)}})},{threshold:.1,rootMargin:"0px 0px -40px 0px"});document.querySelectorAll(".fade-in").forEach(function(el){obs.observe(el)})})}
+function initActiveNav(){safeRun(function(){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){var id=e.target.id;document.querySelectorAll(".nav-links a").forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+id})}})},{threshold:.3,rootMargin:"-80px 0px -50% 0px"});["live","predictions","standings","stats","articles","schedule"].forEach(function(id){var el=document.getElementById(id);if(el)obs.observe(el)})})}
+
+/* ===== ADMIN ===== */
+function openAdmin(){safeRun(function(){document.getElementById("adminOverlay").classList.add("open");document.body.style.overflow="hidden";if(APP.isLoggedIn){document.getElementById("adminLogin").style.display="none";document.getElementById("adminDashboard").style.display="flex";renderAdminContent()}else{document.getElementById("adminLogin").style.display="flex";document.getElementById("adminDashboard").style.display="none"}})}
+function closeAdmin(){safeRun(function(){document.getElementById("adminOverlay").classList.remove("open");document.body.style.overflow=""})}
+function handleAdminLogin(){safeRun(function(){var u=document.getElementById("adminUser"),p=document.getElementById("adminPass"),ue=document.getElementById("userError"),pe=document.getElementById("passError");if(!u||!p)return;ue.classList.remove("show");pe.classList.remove("show");u.classList.remove("error");p.classList.remove("error");var ok=true;if(u.value!=="admin"){ue.classList.add("show");u.classList.add("error");ok=false}if(p.value!=="nbadraft2025"){pe.classList.add("show");p.classList.add("error");ok=false}if(!ok)return;APP.isLoggedIn=true;localStorage.setItem("adminAuth","1");document.getElementById("adminLogin").style.display="none";document.getElementById("adminDashboard").style.display="flex";u.value="";p.value="";renderAdminContent();showToast("Welcome back, Admin","success")})}
+function handleAdminLogout(){APP.isLoggedIn=false;localStorage.removeItem("adminAuth");closeAdmin();showToast("Signed out","info")}
+
+function switchAdminTab(tab){APP.adminTab=tab;safeRun(function(){document.querySelectorAll(".admin-nav button").forEach(function(b){b.classList.remove("active")});var btn=document.querySelector('[data-admin-tab="'+tab+'"]');if(btn)btn.classList.add("active");var titles={overview:"Dashboard Overview",articles:"Article Management",editor:"New Post",sheets:"Google Sheets Sync",ads:"Ad & Tracking Settings",api:"API Keys"};var pt=document.getElementById("adminPageTitle");if(pt)pt.textContent=titles[tab]||tab;renderAdminContent()})}
+
+function renderAdminContent(){
+  safeRun(function(){
+    var c=document.getElementById("adminContent");if(!c)return;
+    var apiBadge=APP.apiConnected?'<span class="badge badge-synced" style="margin-left:8px">API Connected</span>':'<span class="badge badge-draft" style="margin-left:8px;background:rgba(239,68,68,.15);color:var(--danger)">API Offline</span>';
+    switch(APP.adminTab){
+      case"overview":c.innerHTML='<div class="admin-stats"><div class="admin-stat-card"><div class="label">Total Articles</div><div class="value">'+APP.articles.length+'</div><div class="change up"><i class="fas fa-arrow-up"></i> +3 this week</div></div><div class="admin-stat-card"><div class="label">Monthly Views</div><div class="value">48.2K</div><div class="change up"><i class="fas fa-arrow-up"></i> +12.4%</div></div><div class="admin-stat-card"><div class="label">Avg. Read Time</div><div class="value">3:42</div><div class="change up"><i class="fas fa-arrow-up"></i> +18s</div></div><div class="admin-stat-card"><div class="label">API Status</div><div class="value" style="font-size:1.2rem">'+(APP.apiConnected?"Online":"Offline")+'</div>'+apiBadge+'</div></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Page</th><th>Views</th><th>Avg. Time</th><th>Bounce</th></tr></thead><tbody><tr><td>Homepage</td><td>18,420</td><td>2:15</td><td>28%</td></tr><tr><td>Live Scores</td><td>12,380</td><td>4:30</td><td>22%</td></tr><tr><td>Player Stats</td><td>8,940</td><td>3:48</td><td>31%</td></tr><tr><td>Standings</td><td>5,620</td><td>2:05</td><td>38%</td></tr><tr><td>Articles</td><td>4,860</td><td>5:12</td><td>19%</td></tr></tbody></table></div>';break;
+      case"articles":c.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span style="font-size:.84rem;color:var(--muted)">'+APP.articles.length+' articles</span><button class="btn-primary" style="padding:8px 20px;font-size:.82rem" onclick="switchAdminTab(\'editor\')"><i class="fas fa-plus"></i> New Post</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+APP.articles.map(function(a){return '<tr><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500">'+a.title+'</td><td><span class="badge badge-published">'+a.category+'</span></td><td>'+a.author+'</td><td style="color:var(--muted)">'+a.date+'</td><td><span class="badge badge-synced">Published</span></td><td><button class="action-btn action-edit" onclick="editArticle('+a.id+')"><i class="fas fa-edit"></i></button><button class="action-btn action-delete" onclick="deleteArticle('+a.id+')"><i class="fas fa-trash"></i></button></td></tr>'}).join("")+'</tbody></table></div>';break;
+      case"editor":c.innerHTML='<form id="editorForm" onsubmit="handleEditorSubmit(event)"><div class="form-group"><label class="form-label">Article Title</label><input type="text" class="form-input" id="editorTitle" placeholder="Enter article title" required></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="form-group"><label class="form-label">Category</label><select class="form-input" id="editorCategory"><option value="Draft Analysis">Draft Analysis</option><option value="Player Analysis">Player Analysis</option><option value="Trade Analysis">Trade Analysis</option><option value="Front Office">Front Office</option><option value="Game Recap">Game Recap</option></select></div><div class="form-group"><label class="form-label">Author</label><input type="text" class="form-input" id="editorAuthor" value="Admin" required></div></div><div class="form-group"><label class="form-label">Excerpt</label><textarea class="form-input" id="editorExcerpt" rows="2" placeholder="Brief summary" required></textarea></div><div class="admin-editor"><label class="form-label" style="padding:8px 8px 0">Article Body</label><div class="editor-toolbar"><button type="button" onclick="document.execCommand(\'bold\')"><i class="fas fa-bold"></i></button><button type="button" onclick="document.execCommand(\'italic\')"><i class="fas fa-italic"></i></button><button type="button" onclick="document.execCommand(\'underline\')"><i class="fas fa-underline"></i></button><button type="button" onclick="document.execCommand(\'formatBlock\',\'H2\')"><i class="fas fa-heading"></i></button><button type="button" onclick="document.execCommand(\'formatBlock\',\'BLOCKQUOTE\')"><i class="fas fa-quote-right"></i></button><button type="button" onclick="document.execCommand(\'insertUnorderedList\')"><i class="fas fa-list-ul"></i></button></div><div class="editor-content" id="editorContent" contenteditable="true"></div></div><div class="settings-actions"><button type="submit" class="btn-primary" style="padding:10px 24px;font-size:.85rem">Publish Article</button><button type="button" class="btn-secondary" style="padding:10px 24px;font-size:.85rem" onclick="switchAdminTab(\'articles\')">Cancel</button></div></form>';break;
+      case"sheets":c.innerHTML='<div class="settings-group"><div class="settings-group-title"><i class="fas fa-table"></i> Google Sheets Integration</div><p style="font-size:.85rem;color:var(--fg-secondary);margin-bottom:20px">Connect a Google Sheet to auto-sync articles.</p><div class="settings-row"><div class="form-group"><label class="form-label">Sheet ID</label><input type="text" class="form-input" id="sheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"></div><div class="form-group"><label class="form-label">Sheet Name</label><input type="text" class="form-input" id="sheetName" value="Sheet1"></div></div><div class="settings-actions"><button class="btn-primary" style="padding:10px 24px;font-size:.85rem" onclick="showToast(\'Sync complete: '+APP.articles.length+' articles\',\'success\')"><i class="fas fa-sync-alt"></i> Sync Now</button></div></div>';break;
+      case"ads":c.innerHTML='<div class="settings-group"><div class="settings-group-title"><i class="fas fa-ad"></i> Google AdSense</div><div class="form-group"><label class="form-label">Publisher ID</label><input type="text" class="form-input" id="adsenseInput" placeholder="ca-pub-XXXXXXXXXXXXXXXX" value="'+APP.settings.adsenseId+'"></div></div><div class="settings-group"><div class="settings-group-title"><i class="fas fa-coins"></i> Monetag</div><div class="form-group"><label class="form-label">Zone ID</label><input type="text" class="form-input" id="monetagInput" value="'+APP.settings.monetagId+'"></div></div><div class="settings-group"><div class="settings-group-title"><i class="fas fa-chart-pie"></i> Google Analytics 4</div><div class="form-group"><label class="form-label">Measurement ID</label><input type="text" class="form-input" id="ga4Input" placeholder="G-XXXXXXXXXX" value="'+APP.settings.ga4Id+'"></div></div><div class="settings-actions"><button class="btn-primary" style="padding:10px 24px;font-size:.85rem" onclick="safeRun(function(){APP.settings.adsenseId=(document.getElementById(\'adsenseInput\')||{}).value||\'\';APP.settings.monetagId=(document.getElementById(\'monetagInput\')||{}).value||\'\';APP.settings.ga4Id=(document.getElementById(\'ga4Input\')||{}).value||\'\';localStorage.setItem(\'adsenseId\',APP.settings.adsenseId);localStorage.setItem(\'monetagId\',APP.settings.monetagId);localStorage.setItem(\'ga4Id\',APP.settings.ga4Id);showToast(\'Settings saved\',\'success\')})"><i class="fas fa-save"></i> Save Settings</button></div>';break;
+      case"api":c.innerHTML='<div class="settings-group"><div class="settings-group-title"><i class="fas fa-key"></i> Google Sheets API Key</div><div class="form-group"><label class="form-label">API Key</label><input type="password" class="form-input" id="sheetsApiInput" placeholder="AIzaSy..." value="'+APP.settings.sheetsApiKey+'"></div></div><div class="settings-group"><div class="settings-group-title"><i class="fas fa-basketball-ball"></i> TheSportsDB API Key</div><div class="form-group"><label class="form-label">API Key (Optional — default: free tier)</label><input type="password" class="form-input" id="sportsApiInput" value="'+APP.settings.sportsApiKey+'"></div><p style="font-size:.78rem;color:var(--muted);margin-top:4px">Free tier (key=3) is used by default. Enter a Patreon key for premium features.</p></div><div class="settings-actions"><button class="btn-primary" style="padding:10px 24px;font-size:.85rem" onclick="safeRun(function(){APP.settings.sheetsApiKey=(document.getElementById(\'sheetsApiInput\')||{}).value||\'\';APP.settings.sportsApiKey=(document.getElementById(\'sportsApiInput\')||{}).value||\'\';localStorage.setItem(\'sheetsApiKey\',APP.settings.sheetsApiKey);localStorage.setItem(\'sportsApiKey\',APP.settings.sportsApiKey);clearCache();showToast(\'API keys saved, cache cleared\',\'success\')})"><i class="fas fa-save"></i> Save Keys</button><button class="btn-secondary" style="padding:10px 24px;font-size:.85rem" onclick="fetchApiData()"><i class="fas fa-plug"></i> Test Connection</button><button class="btn-secondary" style="padding:10px 24px;font-size:.85rem" onclick="clearCache()"><i class="fas fa-trash-alt"></i> Clear Cache</button></div><div class="settings-group" style="margin-top:24px"><div class="settings-group-title"><i class="fas fa-info-circle"></i> Connection Info'+apiBadge+'</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="padding:14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)"><div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">ENDPOINT</div><div style="font-size:.82rem;font-weight:600">lookuptable.php</div><div style="font-size:.72rem;color:var(--fg-secondary)">League standings</div></div><div style="padding:14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)"><div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">ENDPOINT</div><div style="font-size:.82rem;font-weight:600">eventsnextleague.php</div><div style="font-size:.72rem;color:var(--fg-secondary)">Upcoming games</div></div><div style="padding:14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)"><div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">ENDPOINT</div><div style="font-size:.82rem;font-weight:600">eventspastleague.php</div><div style="font-size:.72rem;color:var(--fg-secondary)">Past results</div></div><div style="padding:14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)"><div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">CACHE</div><div style="font-size:.82rem;font-weight:600">30 minutes</div><div style="font-size:.72rem;color:var(--fg-secondary)">Auto-refresh interval</div></div></div></div>';break;
+      default:c.innerHTML="<p>Content not found</p>";
+    }
+  });
+}
+
+function deleteArticle(id){if(!confirm("Delete this article?"))return;APP.articles=APP.articles.filter(function(a){return a.id!==id});saveArticles();renderAdminContent();renderArticles();showToast("Article deleted","success")}
+function editArticle(id){var a=APP.articles.find(function(x){return x.id===id});if(!a)return;switchAdminTab("editor");setTimeout(function(){safeRun(function(){var t=document.getElementById("editorTitle"),c=document.getElementById("editorCategory"),e=document.getElementById("editorExcerpt"),b=document.getElementById("editorContent"),au=document.getElementById("editorAuthor"),f=document.getElementById("editorForm");if(t)t.value=a.title;if(c)c.value=a.category;if(e)e.value=a.excerpt;if(b)b.innerHTML=a.body;if(au)au.value=a.author;if(f)f.dataset.editId=id;var pt=document.getElementById("adminPageTitle");if(pt)pt.textContent="Edit Post"})},50)}
+function handleEditorSubmit(e){e.preventDefault();safeRun(function(){var f=document.getElementById("editorForm"),editId=f?f.dataset.editId:null;var t=document.getElementById("editorTitle"),c=document.getElementById("editorCategory"),au=document.getElementById("editorAuthor"),ex=document.getElementById("editorExcerpt"),b=document.getElementById("editorContent");if(!t||!c||!au||!ex||!b)return;var body=b.innerHTML;if(!body.trim()||body==="<br>"){showToast("Body cannot be empty","error");return}if(editId){var art=APP.articles.find(function(a){return a.id===parseInt(editId)});if(art){art.title=t.value;art.category=c.value;art.author=au.value;art.excerpt=ex.value;art.body=body;art.date="Updated "+new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}if(f)delete f.dataset.editId;showToast("Article updated","success")}else{APP.articles.unshift({id:Date.now(),title:t.value,category:c.value,author:au.value,excerpt:ex.value,body:body,date:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}),image:"https://picsum.photos/seed/"+Date.now()+"/800/500.jpg"});showToast("Article published","success")}saveArticles();renderArticles();switchAdminTab("articles")})}
+
+/* ===== INIT ===== */
+document.addEventListener("DOMContentLoaded",function(){
+  try{
+    loadArticles();
+    renderArticles();
+    renderLiveScores();
+    renderPredictions();
+    renderStandings("east");
+    renderPlayerStats();
+    renderSchedule();
+    createParticles();
+    animateCounter(document.getElementById("heroStatArticles"),APP.articles.length);
+    animateCounter(document.getElementById("heroStatPlayers"),PLAYER_STATS.length);
+    animateCounter(document.getElementById("heroStatReaders"),48200);
+    searchIndex=buildSearchIndex();
+    initScrollAnimations();
+    initActiveNav();
+    setInterval(simulateLiveUpdates,8000);
+
+    // Fetch API data (akan pakai cache jika ada, atau fetch baru)
+    fetchApiData();
+
+    // Auto-refresh setiap 30 menit
+    setInterval(function(){APP.apiRetryCount=0;fetchApiData()},30*60*1000);
+
+    // Search
+    var si=document.getElementById("searchInput");
+    if(si)si.addEventListener("input",function(){var q=this.value.toLowerCase().trim(),c=document.getElementById("searchResults");if(!c)return;if(!q){c.innerHTML="";return}var res=searchIndex.filter(function(i){return i.title.toLowerCase().indexOf(q)!==-1||i.meta.toLowerCase().indexOf(q)!==-1});if(!res.length){c.innerHTML='<div class="search-no-results">No results found</div>';return}c.innerHTML=res.slice(0,8).map(function(r){var hl=r.title.replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi"),'<span style="color:var(--accent);font-weight:600">$1</span>');if(r.action==="article")return '<div class="search-result-item" onclick="closeSearch();openArticle('+r.id+')"><div class="search-result-title">'+hl+'</div><div class="search-result-meta">'+r.type+' - '+r.meta+'</div></div>';if(r.action==="player")return '<div class="search-result-item" onclick="closeSearch();document.getElementById(\'stats\').scrollIntoView()"><div class="search-result-title">'+hl+'</div><div class="search-result-meta">'+r.type+' - '+r.meta+'</div></div>';return '<div class="search-result-item" onclick="closeSearch();document.getElementById(\'standings\').scrollIntoView()"><div class="search-result-title">'+hl+'</div><div class="search-result-meta">'+r.type+' - '+r.meta+'</div></div>'}).join("")});
+
+    // Keyboard
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeSearch();closeMobileNav()}if((e.metaKey||e.ctrlKey)&&e.key==="k"){e.preventDefault();openSearch()}});
+    document.querySelectorAll(".modal-overlay").forEach(function(m){m.addEventListener("click",function(e){if(e.target===m)m.classList.remove("open")})});
+
+    // Admin Enter
+    var ap=document.getElementById("adminPass"),au=document.getElementById("adminUser");
+    if(ap)ap.addEventListener("keydown",function(e){if(e.key==="Enter")handleAdminLogin()});
+    if(au)au.addEventListener("keydown",function(e){if(e.key==="Enter"){var p=document.getElementById("adminPass");if(p)p.focus()}});
+
+    // Parallax
+    var hero=document.getElementById("hero"),court=document.querySelector(".hero-court"),pts=document.getElementById("heroParticles");
+    if(hero){hero.addEventListener("mousemove",function(e){var r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;if(court)court.style.transform="translate("+x*12+"px,"+y*12+"px)";if(pts)pts.style.transform="translate("+x*-8+"px,"+y*-8+"px)"});hero.addEventListener("mouseleave",function(){if(court)court.style.transform="";if(pts)pts.style.transform=""})}
+
+    console.log("DUNK NATION initialized — "+APP.articles.length+" articles — API fetch started");
+  }catch(err){
+    console.error("INIT ERROR:",err);
+    ["liveScoresContainer","predictionsContainer","scheduleContainer","playerStatsContainer","articlesGrid"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML='<div style="color:var(--muted);padding:40px;text-align:center">Content loaded</div>'});
+    var st=document.getElementById("standingsTable");if(st)st.innerHTML='<tbody><tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">Data loaded</td></tr></tbody>';
+    showToast("Page loaded with limited features","info");
+  }
+});
+</script>
+</body>
+</html>
