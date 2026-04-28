@@ -1215,52 +1215,63 @@ async function uploadRealImage(file) {
 }
 
 /* FUNGSI 2: Load Articles dari Supabase (Dengan Fallback Otomatis) */
+/* FUNGSI: LOAD ARTICLES (DARI PIXELANIME & SUPABASE) - SUDAH DI-UPDATE */
 async function loadArticles(){
   try{
-    // Coba ambil dari Supabase
+    // 1. Coba ambil dari Supabase (Real)
     const { data, error } = await _supabase
       .from('articles')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false }); // Urutkan dari terbaru
 
     if (error) {
       console.warn("Supabase Error loading articles, using fallback:", error);
-      // Jika error (misal tabel belum dibuat), gunakan default
-      APP.articles = JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
+      // Jika error (misal tabel belum dibuat), gunakan data bawaan
+      APP.articles = JSON.parse(JSON.stringify(DUNK_NATION_ARTICLES)); // Ganti DUNK_NATION_ARTICLES jika perlu
     } else if (!data || data.length === 0) {
       console.log("Supabase table is empty, seeding default data...");
-      APP.articles = JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
+      APP.articles = JSON.parse(JSON.stringify(DUNK_NATION_ARTICLES)); 
     } else {
-      APP.articles = data;
+      console.log("Data berhasil diambil dari Supabase:", data.length + " artikel");
+      // MAPPING DATA PIXELANIME KE STRUKTUR WEBSITE DUNK NATION
+      // PixelAnime menggunakan struktur: { title, author, url, pub_date, content_raw, created_at, featured_image, id }
+      APP.articles = data.map(item => ({
+        id: item.id, // Gunakan ID asli dari PixelAnime
+        title: item.title,
+        slug: item.slug || item.title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/-+$/,""),
+        excerpt: item.content_raw ? item.content_raw.substring(0, 100) : "No excerpt available", // Pixelane kadang pakai 'content_raw' (tapi kadang tidak ada)
+        body: item.content_raw || item.content || "", // Ambil semua konten HTML
+        category: item.category || "General",
+        author: item.author || "Admin",
+        date: item.pub_date ? new Date(item.pub_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        // Pastikan ada image (Pixelane pakai 'url' atau 'featured_image')
+        image_url: item.url || item.featured_image || "https://picsum.photos/seed/nba-article/800/500.jpg", 
+        image_url: item.url ? item.url : item.featured_image || "https://picsum.photos/seed/nba-article/800/500.jpg" // Gunakan salah satu jika keduanya ada
+        // Jangan lupa 'id' jika ingin mengetahui user di halaman detail nanti
+        image: item.image_url // Gunakan 'image' jika ada, jika tidak ada, pakai 'content_raw'
+      }));
     }
     
     // Simpan ke localStorage agar cepat load nanti
-    saveArticles(); 
+    localStorage.setItem("dunkNationArticles", JSON.stringify(APP.articles));
     renderArticles();
+    renderStats(); // Update counter di hero
+    animateCounter(document.getElementById("heroStatArticles"), APP.articles.length);
   }catch(e){
     console.error("Error loading articles:",e);
-    APP.articles=JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
+    // Fallback ke default jika ada error kritis
+    APP.articles = JSON.parse(JSON.stringify(DUNK_NATION_ARTICLES));
     renderArticles();
   }
 }
 
-function saveArticles(){
-  try{
-    localStorage.setItem("dunkNationArticles",JSON.stringify(APP.articles));
-  }catch(e){
-    console.error("Error saving articles:",e);
-    showToast("Storage penuh!","error");
-  }
-}
-
-function safeExecute(fn, fallback) {
-  try {
-    return fn();
-  } catch(e) {
-    console.error('Error in safeExecute:', e);
-    return fallback || null;
-  }
-}
+/* 
+  ========================================================
+  1. DATA KHUSUS UNTUK FALLBACK (Jika Supabase Error)
+  ========================================================
+*/
+// Gunakan nama variabel yang berbeda agar tidak menimpa logic default
+var DUNK_NATION_PIXELANIME_ARTICLES = DUNK_NATION_ARTICLES; // Pastikan Anda menyalin data CSV baru Anda di sini
 
 /* ===== AUTH & LOGIN HANDLING ===== */
 function openAdmin(){
