@@ -881,7 +881,101 @@ var APP={
 
 /* ===== UTILITIES ===== */
 function getTeam(abbr){return TEAMS.find(function(t){return t.abbr===abbr})||{name:abbr,city:abbr,color:"#555"}}
+/* ===== THESPORTSDB API INTEGRATION ===== */
+var API_CACHE_KEY = "nba_api_cache_v1";
+var CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 jam dalam milidetik
 
+function getCache() {
+  try {
+    var cached = localStorage.getItem(API_CACHE_KEY);
+    if (cached) {
+      var data = JSON.parse(cached);
+      // Cek apakah cache sudah lebih dari 24 jam
+      if (Date.now() - data.timestamp < CACHE_DURATION) {
+        return data;
+      }
+    }
+  } catch (e) { console.log("Cache read error", e); }
+  return null;
+}
+
+function setCache(apiData) {
+  try {
+    var toSave = { timestamp: Date.now(), data: apiData };
+    localStorage.setItem(API_CACHE_KEY, JSON.stringify(toSave));
+  } catch (e) { console.log("Cache write error", e); }
+}
+
+function fetchNBAData() {
+  var cache = getCache();
+  
+  // Jika ada cache yang masih segar (umur < 24 jam), pakai itu dulu
+  if (cache) {
+    console.log("Menggunakan data dari cache lokal.");
+    applyApiData(cache.data);
+    return;
+  }
+
+  // Jika tidak ada cache, ambil dari API TheSportsDB
+  console.log("Mengambil data dari TheSportsDB...");
+  showToast("Syncing latest NBA data...", "info");
+
+  // ID Liga NBA di TheSportsDB adalah 4387
+  var url = "https://www.thesportsdb.com/api/v1/json/3/lookupleague.php?id=4387";
+  
+  fetch(url)
+    .then(function(response) { return response.json(); })
+    .then(function(json) {
+      if (json.leagues && json.leagues.length > 0) {
+        setCache(json.leagues[0]); // Simpan ke cache
+        applyApiData(json.leagues[0]);
+        showToast("NBA data synced successfully!", "success");
+      }
+    })
+    .catch(function(error) {
+      console.error("Error fetching API:", error);
+      showToast("Failed to sync live data, using fallback.", "error");
+      
+      // FALLBACK: Jika API gagal (misal user offline), pakai data hardcoded yang sudah kamu buat
+      applyFallbackData();
+    });
+}
+
+function applyApiData(leagueData) {
+  // 1. UPDATE STANDINGS (Klasemen)
+  // TheSportsDB tidak punya endpoint khusus klasemen realtime di free tier, 
+  // jadi kita akan memanfaatkan deskripsi liga atau tetap memakai data statis tapi dengan branding resmi.
+  // Untuk saat ini, kita biarkan klasemen kamu yang sangat bagus itu tetap ada.
+  
+  // 2. UPDATE HERO & FOOTER (Informasi Liga Resmi)
+  // TheSportsDB mengembalikan badge, banner, nama resmi, dan deskripsi liga
+  if (leagueData.strBadge) {
+    // Ganti icon bola di navbar dengan logo NBA resmi
+    document.querySelectorAll('.nav-logo .ball, .admin-sidebar-logo .ball, .footer .ball').forEach(function(el) {
+      el.style.backgroundImage = "url(" + leagueData.strBadge + ")";
+      el.style.backgroundSize = "contain";
+      el.style.backgroundRepeat = "no-repeat";
+      el.style.backgroundPosition = "center";
+      el.style.backgroundColor = "transparent"; // Hilangkan warna oranye asli
+      el.style.boxShadow = "none";
+    });
+  }
+  
+  // 3. UPDATE ARTIKEL (Menambahkan berita resmi ke sidebar atau array artikel)
+  if (leagueData.strDescriptionEN) {
+     // Anda bisa memanipulasi string ini jika ingin dijadikan konten, 
+     // tapi untuk sekarang kita fokus pada aset visual (logo) saja.
+  }
+}
+
+function applyFallbackData() {
+  // Jika API gagal, pastikan tetap ada logo (kembalikan ke CSS asli)
+  document.querySelectorAll('.ball').forEach(function(el) {
+    el.style.backgroundImage = "none";
+    el.style.backgroundColor = "var(--accent)";
+    el.style.boxShadow = "0 0 12px var(--accent-glow)";
+  });
+}
 function showToast(msg,type){
   type=type||"info";
   var c=document.getElementById("toastContainer");
